@@ -1,67 +1,31 @@
 ## intent:bye
-- Bye
-- Goodbye
-- See you later
-- Bye bot
-- Goodbye friend
-- bye
-- bye for now
-- catch you later
-- gotta go
-- See you
-- goodnight
-- have a nice day
-- i'm off
-- see you later alligator
-- we'll speak soon
+- Пока
+- До свидания
+- Увидимся
+- Пока бот
+- До свиданья друг
 
 ## intent:greet
-- Hi
-- Hey
-- Hi bot
-- Hey bot
-- Hello
+- привет
+- здравствуйте
+- привет бот
+- доброе утро
+- все привет
 - Good morning
-- hi again
-- hi folks
-- hi Mister
-- hi pal!
-- hi there
-- greetings
-- hello everybody
-- hello is anybody there
-- hello robot
 
 ## intent:thank
-- Thanks
-- Thank you
-- Thank you so much
-- Thanks bot
-- Thanks for that
-- cheers
-- cheers bro
-- ok thanks!
-- perfect thank you
-- thanks a bunch for everything
-- thanks for the help
-- thanks a lot
-- amazing, thanks
-- cool, thanks
-- cool thank you
+- Спасибо
+- Спасибо тебе
+- Спасибо огромное
+- Класс
+- Класс бро
+- Отлично, спасибо
+- круто спасибо
 
 ## intent:deny
-- no
-- definitely not
-- never
-- absolutely not
-- i don't think so
-- i'm afraid not
-- no sir
-- no ma'am
-- no way
-- no sorry
-- No, not really.
-- nah not for me
-- nah
-- no and no again
-- no go
+- нет
+- точно нет
+- никогда
+- абсолютно нет
+- я так не думаю
+- боюсь что нет

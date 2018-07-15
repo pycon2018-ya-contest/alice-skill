@@ -1,0 +1,177 @@
+{
+  "rasa_nlu_data": {
+    "regex_features": [
+      {
+        "name": "zipcode",
+        "pattern": "[0-9]{5}"
+      },
+      {
+        "name": "greet",
+        "pattern": "привет[^\\s]*"
+      }
+    ],
+    "entity_synonyms": [],
+    "common_examples": [
+      {
+        "text": "Привет", 
+        "intent": "greet", 
+        "entities": []
+      }, 
+      {
+        "text": "Как дела", 
+        "intent": "greet", 
+        "entities": []
+      }, 
+      {
+        "text": "Хей привет",
+        "intent": "greet", 
+        "entities": []
+      }, 
+      {
+        "text": "Привет", 
+        "intent": "greet", 
+        "entities": []
+      }, 
+      {
+        "text": "приветик", 
+        "intent": "greet", 
+        "entities": []
+      },
+      {
+        "text": "доброе утро", 
+        "intent": "greet", 
+        "entities": []
+      },
+      {
+        "text": "добрый вечер", 
+        "intent": "greet", 
+        "entities": []
+      },
+      {
+        "text": "дорогой сэр", 
+        "intent": "greet", 
+        "entities": []
+      },
+      {
+        "text": "да", 
+        "intent": "affirm", 
+        "entities": []
+      }, 
+      {
+        "text": "дас", 
+        "intent": "affirm", 
+        "entities": []
+      }, 
+      {
+        "text": "угу", 
+        "intent": "affirm", 
+        "entities": []
+      },
+      {
+        "text": "ага", 
+        "intent": "affirm", 
+        "entities": []
+      },
+      {
+        "text": "все правильно", 
+        "intent": "affirm", 
+        "entities": []
+      },
+      {
+        "text": "ок", 
+        "intent": "affirm", 
+        "entities": []
+      },
+      {
+        "text": "отлично",
+        "intent": "affirm",
+        "entities": []
+      },
+      {
+        "text": "правильно спасибо",
+        "intent": "affirm",
+        "entities": []
+      },
+      {
+        "text": "корректно",
+        "intent": "affirm",
+        "entities": []
+      },
+      {
+        "text": "отличный выбор",
+        "intent": "affirm",
+        "entities": []
+      },
+      {
+        "text": "звучит классно",
+        "intent": "affirm",
+        "entities": []
+      },
+      {
+        "text": "Я ищу место где поесть",
+        "intent": "restaurant_search",
+        "entities": []
+      },
+      {
+        "text": "Где пообедать",
+        "intent": "restaurant_search",
+        "entities": []
+      },
+      {
+        "text": "Нужно место для ужина",
+        "intent": "restaurant_search",
+        "entities": []
+      },
+      {
+        "text": "Ищу место чтобы покушать на севере города",
+        "intent": "restaurant_search",
+        "entities": []
+      },
+      {
+        "text": "покажи мне китайские рестораны",
+        "intent": "restaurant_search",
+        "entities": []
+      },
+      {
+        "text": "Я ищу азиатской еды",
+        "intent": "restaurant_search",
+        "entities": []
+      },
+      {
+        "text": "Индийский ресторан в центре",
+        "intent": "restaurant_search",
+        "entities": []
+      },
+      {
+        "text": "Пока", 
+        "intent": "goodbye", 
+        "entities": []
+      }, 
+      {
+        "text": "До свидания", 
+        "intent": "goodbye", 
+        "entities": []
+      }, 
+      {
+        "text": "стоп", 
+        "intent": "goodbye", 
+        "entities": []
+      }, 
+      {
+        "text": "конец", 
+        "intent": "goodbye", 
+        "entities": []
+      },
+      {
+        "text": "пока пока",
+        "intent": "goodbye",
+        "entities": []
+      },
+      {
+        "text": "хорошего вечера",
+        "intent": "goodbye",
+        "entities": []
+      }
+    ]
+  }
+}

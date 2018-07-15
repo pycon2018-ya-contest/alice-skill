@@ -10,4 +10,4 @@ def train():
 
 @task
 def run():
-    local('')
+    local('python bot.py')

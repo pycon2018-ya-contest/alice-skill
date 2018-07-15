@@ -4,3 +4,4 @@ gspread==2.0.0
 oauth2client==4.1.2
 duckling==1.7.3
 fabric==1.14.0
+python-telegram-bot==9.0.0

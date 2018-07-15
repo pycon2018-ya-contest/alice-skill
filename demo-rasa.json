@@ -1,175 +1,96 @@
 {
   "rasa_nlu_data": {
-    "regex_features": [
-      {
-        "name": "zipcode",
-        "pattern": "[0-9]{5}"
-      },
-      {
-        "name": "greet",
-        "pattern": "привет[^\\s]*"
-      }
-    ],
+    "regex_features": [],
     "entity_synonyms": [],
     "common_examples": [
       {
-        "text": "Привет", 
-        "intent": "greet", 
-        "entities": []
-      }, 
-      {
-        "text": "Как дела", 
-        "intent": "greet", 
-        "entities": []
-      }, 
-      {
-        "text": "Хей привет",
-        "intent": "greet", 
-        "entities": []
-      }, 
-      {
-        "text": "Привет", 
-        "intent": "greet", 
-        "entities": []
-      }, 
-      {
-        "text": "приветик", 
-        "intent": "greet", 
+        "text": "новая игра",
+        "intent": "newgame",
         "entities": []
       },
       {
-        "text": "доброе утро", 
-        "intent": "greet", 
+        "text": "начни новую игру",
+        "intent": "newgame",
         "entities": []
       },
       {
-        "text": "добрый вечер", 
-        "intent": "greet", 
+        "text": "начать новую игру",
+        "intent": "newgame",
         "entities": []
       },
       {
-        "text": "дорогой сэр", 
-        "intent": "greet", 
+        "text": "повтори ход",
+        "intent": "repeat",
         "entities": []
       },
       {
-        "text": "да", 
-        "intent": "affirm", 
-        "entities": []
-      }, 
-      {
-        "text": "дас", 
-        "intent": "affirm", 
-        "entities": []
-      }, 
-      {
-        "text": "угу", 
-        "intent": "affirm", 
+        "text": "повтори",
+        "intent": "repeat",
         "entities": []
       },
       {
-        "text": "ага", 
-        "intent": "affirm", 
+        "text": "повторить",
+        "intent": "repeat",
         "entities": []
       },
       {
-        "text": "все правильно", 
-        "intent": "affirm", 
+        "text": "начинай",
+        "intent": "letsstart",
         "entities": []
       },
       {
-        "text": "ок", 
-        "intent": "affirm", 
+        "text": "начинай ходить",
+        "intent": "letsstart",
         "entities": []
       },
       {
-        "text": "отлично",
-        "intent": "affirm",
+        "text": "я хожу д8",
+        "intent": "miss",
         "entities": []
       },
       {
-        "text": "правильно спасибо",
-        "intent": "affirm",
+        "text": "мой ход г5",
+        "intent": "miss",
         "entities": []
       },
       {
-        "text": "корректно",
-        "intent": "affirm",
+        "text": "мимо я хожу а2",
+        "intent": "miss",
         "entities": []
       },
       {
-        "text": "отличный выбор",
-        "intent": "affirm",
+        "text": "мимо мой ход е10",
+        "intent": "miss",
         "entities": []
       },
       {
-        "text": "звучит классно",
-        "intent": "affirm",
+        "text": "ранил",
+        "intent": "hit",
         "entities": []
       },
       {
-        "text": "Я ищу место где поесть",
-        "intent": "restaurant_search",
+        "text": "ранила",
+        "intent": "hit",
         "entities": []
       },
       {
-        "text": "Где пообедать",
-        "intent": "restaurant_search",
+        "text": "убил",
+        "intent": "kill",
         "entities": []
       },
       {
-        "text": "Нужно место для ужина",
-        "intent": "restaurant_search",
+        "text": "потопил корабль",
+        "intent": "kill",
         "entities": []
       },
       {
-        "text": "Ищу место чтобы покушать на севере города",
-        "intent": "restaurant_search",
+        "text": "корабль утонул",
+        "intent": "kill",
         "entities": []
       },
       {
-        "text": "покажи мне китайские рестораны",
-        "intent": "restaurant_search",
-        "entities": []
-      },
-      {
-        "text": "Я ищу азиатской еды",
-        "intent": "restaurant_search",
-        "entities": []
-      },
-      {
-        "text": "Индийский ресторан в центре",
-        "intent": "restaurant_search",
-        "entities": []
-      },
-      {
-        "text": "Пока", 
-        "intent": "goodbye", 
-        "entities": []
-      }, 
-      {
-        "text": "До свидания", 
-        "intent": "goodbye", 
-        "entities": []
-      }, 
-      {
-        "text": "стоп", 
-        "intent": "goodbye", 
-        "entities": []
-      }, 
-      {
-        "text": "конец", 
-        "intent": "goodbye", 
-        "entities": []
-      },
-      {
-        "text": "пока пока",
-        "intent": "goodbye",
-        "entities": []
-      },
-      {
-        "text": "хорошего вечера",
-        "intent": "goodbye",
+        "text": "убила",
+        "intent": "kill",
         "entities": []
       }
     ]

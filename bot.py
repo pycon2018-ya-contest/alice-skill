@@ -10,16 +10,16 @@ from rasa_nlu.data_router import DataRouter
 
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    logging.DEBUG
+    level=logging.DEBUG
 )
 logger = logging.getLogger(__name__)
 router = DataRouter('projects/')
 
 
 def bot_handler(bot, update):
-    data = router.extract({'q': 'update.message.text'})
+    data = router.extract({'q': update.message.text})
     response = router.parse(data)
-    bot.send_message(chat_id=update.message.chat_id, text=json.dumps(response, indent=2))
+    bot.send_message(chat_id=update.message.chat_id, text=response['intent']['name'])  # json.dumps(response, indent=2))
 
 
 def error_handler(bot, update, error):

@@ -5,7 +5,7 @@ from fabric.api import task, local
 
 @task
 def train():
-    local('python -m rasa_nlu.train --config nlu_config.yml --data demo-rasa.json --path projects')
+    local('python -m rasa_nlu.train --config spacy_config.yml --data intents_config.json --path projects')
 
 
 @task

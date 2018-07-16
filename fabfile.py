@@ -10,4 +10,4 @@ def train():
 
 @task
 def run():
-    local('python seabattle/bot.py')
+    local('PYTHONPATH=$PYTHONPATH:. python seabattle/bot.py')

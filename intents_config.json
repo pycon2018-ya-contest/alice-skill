@@ -4,17 +4,17 @@
     "entity_synonyms": [],
     "common_examples": [
       {
-        "text": "новая игра",
+        "text": "новая игра соперник Алиса",
         "intent": "newgame",
         "entities": []
       },
       {
-        "text": "начни новую игру",
+        "text": "начни новую игру соперник Яндекс",
         "intent": "newgame",
         "entities": []
       },
       {
-        "text": "начать новую игру",
+        "text": "начать новую игру соперник Алиса",
         "intent": "newgame",
         "entities": []
       },

@@ -1,5 +1,7 @@
 # coding: utf-8
 
+from __future__ import unicode_literals
+
 import logging
 
 from rasa_nlu.data_router import DataRouter
@@ -54,7 +56,7 @@ def _handle_miss(user_id, message):
     # if opponent missed do shot
     if answer == 'miss':
         position = game_obj.do_shot()
-        shot = game_obj.convert_from_position()
+        shot = game_obj.convert_from_position(position)
         response_dict['shot'] = shot
     return AFTER_SHOT_MESSAGES[answer] % response_dict
 
@@ -66,7 +68,7 @@ def _handle_hit(user_id, message):
     # handle hit
     game_obj.handle_enemy_reply('hit')
     position = game_obj.do_shot()
-    shot = game_obj.convert_from_position()
+    shot = game_obj.convert_from_position(position)
     return '%s, я хожу %s' % (opponent, shot)
 
 
@@ -77,7 +79,7 @@ def _handle_kill(user_id, message):
     # handle kill
     game_obj.handle_enemy_reply('kill')
     position = game_obj.do_shot()
-    shot = game_obj.convert_from_position()
+    shot = game_obj.convert_from_position(position)
     return '%s, я хожу %s' % (opponent, shot)
 
 
@@ -86,4 +88,4 @@ def handle_message(user_id, message):
     router_response = router.parse(data)
     intent_name = router_response['intent']['name']
     handler_name = '_handle_' + intent_name
-    return locals()[handler_name](user_id, message)
+    return globals()[handler_name](user_id, message)

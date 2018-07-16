@@ -96,7 +96,7 @@ class Game(object):
     def handle_enemy_reply(self, message):
         index = self.calc_index(self.last_shot_position)
 
-        if message == 'hit':
+        if message in ['hit', 'kill']:
             self.enemy_field[index] = 2
         elif message == 'miss':
             self.enemy_field[index] = 0

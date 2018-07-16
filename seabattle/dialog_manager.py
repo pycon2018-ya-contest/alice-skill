@@ -12,32 +12,73 @@ router = DataRouter('projects/')
 # mapping: user_id -> user payload dictionary
 sessions = {}
 
+AFTER_SHOT_MESSAGES = {
+    'miss': '%(opponent)s, мимо я хожу %(shot)s',
+    'hit': '%(opponent)s, ранил',
+    'kill': '%(opponent)s, убил',
+}
+
 
 def _handle_newgame(user_id, message):
-    game_obj = sessions.get(user_id, game.Game())
+    session_obj = sessions.get(user_id)
+    if session_obj is None:
+        session_obj = {'game': game.Game()}
+        sessions[user_id] = session_obj
+    game_obj = session_obj['game']
     game_obj.start_new_game()
-    sessions[user_id] = game_obj
-    return 'новая игра ок'
+    opponent = message.split()[-1].lower().capitalize()
+    session_obj['opponent'] = opponent
+    return 'новая игра c ' + opponent
 
 
 def _handle_letsstart(user_id, message):
-    game_obj = sessions.get(user_id)
-    if game_obj is None:
-        game_obj = game.Game()
-        sessions[user_id] = game_obj
-
+    session_obj = sessions.get(user_id)
+    opponent = session_obj['opponent']
+    game_obj = session_obj['game']
+    position = game_obj.do_shot()
+    shot = game_obj.convert_from_position(position)
+    return '%s, я хожу %s' % (opponent, shot)
 
 
 def _handle_miss(user_id, message):
-    pass
+    session_obj = sessions.get(user_id)
+    opponent = session_obj['opponent']
+    game_obj = session_obj['game']
+    # handle miss
+    game_obj.handle_enemy_reply('miss')
+    # handle shot
+    enemy_shot = message.split()[-1]
+    enemy_position = game_obj.convert_to_position(enemy_shot)
+    answer = game_obj.handle_enemy_shot(enemy_position)
+    response_dict = {'opponent': opponent}
+    # if opponent missed do shot
+    if answer == 'miss':
+        position = game_obj.do_shot()
+        shot = game_obj.convert_from_position()
+        response_dict['shot'] = shot
+    return AFTER_SHOT_MESSAGES[answer] % response_dict
 
 
 def _handle_hit(user_id, message):
-    pass
+    session_obj = sessions.get(user_id)
+    opponent = session_obj['opponent']
+    game_obj = session_obj['game']
+    # handle hit
+    game_obj.handle_enemy_reply('hit')
+    position = game_obj.do_shot()
+    shot = game_obj.convert_from_position()
+    return '%s, я хожу %s' % (opponent, shot)
 
 
 def _handle_kill(user_id, message):
-    pass
+    session_obj = sessions.get(user_id)
+    opponent = session_obj['opponent']
+    game_obj = session_obj['game']
+    # handle kill
+    game_obj.handle_enemy_reply('kill')
+    position = game_obj.do_shot()
+    shot = game_obj.convert_from_position()
+    return '%s, я хожу %s' % (opponent, shot)
 
 
 def handle_message(user_id, message):

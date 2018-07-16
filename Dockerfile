@@ -2,7 +2,7 @@ FROM ubuntu:18.04
 
 WORKDIR /skill/
 
-RUN apt-get install python-pip
+RUN apt-get update && apt-get install python-pip
 RUN pip install -U pip
 
 COPY requirements.txt .

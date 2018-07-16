@@ -1,0 +1,8 @@
+*.pyc
+*.egg-info
+.idea
+.git
+.env
+.db
+*.swp
+venv

@@ -10,7 +10,7 @@ from seabattle import game
 
 
 logger = logging.getLogger(__name__)
-router = DataRouter('projects/')
+router = DataRouter('mldata/')
 # mapping: user_id -> user payload dictionary
 sessions = {}
 

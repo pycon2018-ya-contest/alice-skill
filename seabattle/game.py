@@ -23,6 +23,10 @@ class Game(object):
     (6, 7)
     >>> game.convert_to_position('ф 5')
     (6, 5)
+    >>> game.convert_from_position((1, 1))
+    u'a1'
+    >>> game.convert_from_position((6, 5))
+    u'f5'
     >>> game.handle_enemy_shot((4, 7))
     u'hit'
     >>> game.handle_enemy_shot((4, 7))
@@ -130,7 +134,7 @@ class Game(object):
         return x, y
 
     def convert_from_position(self, position):
-        pass
+        return '%s%s' % (chr(position[0] + ord('a') - 1), position[1])
 
 
 if __name__ == "__main__":

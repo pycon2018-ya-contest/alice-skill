@@ -1,11 +1,11 @@
 # coding: utf-8
 
-import json
 import logging
 import os
 
 from telegram import ext as telegram_ext
-from rasa_nlu.data_router import DataRouter
+
+from seabattle import dialog_manager as dm
 
 
 logging.basicConfig(
@@ -13,18 +13,11 @@ logging.basicConfig(
     level=logging.DEBUG
 )
 logger = logging.getLogger(__name__)
-router = DataRouter('projects/')
 
 
 def bot_handler(bot, update):
-    data = router.extract({'q': update.message.text})
-    response = router.parse(data)
-    bot.send_message(chat_id=update.message.chat_id, text=json.dumps(response, indent=2))
-    # '{}:{}'.format(
-    #    response['intent']['name'],
-    #    response['entities'][0]['value'] if response['entities'] else '-',
-    #    response['entities'][0]['entity'] if response['entities'] else '-',
-    # ))
+    response_message = dm.handle_message(update.message.chat_id, update.message.text)
+    bot.send_message(chat_id=update.message.chat_id, text=response_message)
 
 
 def error_handler(bot, update, error):

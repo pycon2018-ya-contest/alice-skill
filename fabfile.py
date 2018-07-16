@@ -10,4 +10,4 @@ def train():
 
 @task
 def run():
-    local('python bot.py')
+    local('python seabattle/bot.py')

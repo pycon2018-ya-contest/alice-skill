@@ -19,21 +19,6 @@
         "entities": []
       },
       {
-        "text": "повтори ход",
-        "intent": "repeat",
-        "entities": []
-      },
-      {
-        "text": "повтори",
-        "intent": "repeat",
-        "entities": []
-      },
-      {
-        "text": "повторить",
-        "intent": "repeat",
-        "entities": []
-      },
-      {
         "text": "начинай",
         "intent": "letsstart",
         "entities": []
@@ -46,25 +31,63 @@
       {
         "text": "я хожу д8",
         "intent": "miss",
-        "entities": []
+        "entities": [
+          {
+            "start": 7,
+            "end": 9,
+            "value": "д8",
+            "entity": "hit_entity"
+          }
+        ]
       },
       {
         "text": "мой ход г5",
         "intent": "miss",
-        "entities": []
+        "entities": [
+          {
+            "start": 8,
+            "end": 10,
+            "value": "г5",
+            "entity": "hit_entity"
+          }
+        ]
       },
       {
         "text": "мимо я хожу а2",
         "intent": "miss",
-        "entities": []
+        "entities": [
+          {
+            "start": 16,
+            "end": 18,
+            "value": "a2",
+            "entity": "hit_entity"
+          }
+        ]
       },
       {
         "text": "мимо мой ход е10",
         "intent": "miss",
-        "entities": []
+        "entities": [
+          {
+            "start": 13,
+            "end": 16,
+            "value": "e10",
+            "entity": "hit_entity"
+          }
+        ]
       },
       {
         "text": "ранил",
+        "intent": "hit",
+        "entities": []
+      },
+      {
+        "text": "попала",
+        "intent": "hit",
+        "entities": []
+      },
+      {
+        "text": "попал",
         "intent": "hit",
         "entities": []
       },

@@ -1,0 +1,14 @@
+language: "ru"
+
+pipeline:
+  - name: "tokenizer_whitespace"
+  - name: "nlp_spacy"
+    model: "xx_ent_wiki_sm"
+  - name: "intent_featurizer_spacy"
+  - name: "intent_featurizer_ngrams"
+    max_number_of_ngrams: 4
+  - name: "intent_classifier_keyword"
+  - name: "intent_classifier_sklearn"
+  - name: "intent_classifier_tensorflow_embedding"
+  - name: "ner_spacy"
+  - name: "ner_crf"

@@ -13,17 +13,18 @@ from seabattle import dialog_manager as dm
 
 app = Flask(__name__)
 
-handler = logging.StreamHandler(stream=sys.stdout)
-formatter  = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+handler = logging.StreamHandler(stream=sys.stderr)
+handler.setLevel(logging.INFO)
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 handler.setFormatter(formatter)
 logger = logging.getLogger(__name__)
-logger.addHandler(logging.StreamHandler(stream=sys.stdout))
+logger.addHandler(handler)
 logger.setLevel(logging.INFO)
 
 
 @app.route('/', methods=['POST'])
 def main():
-    logger.info('Request: %r', request.json)
+    logger.error('Request: %r', request.json)
 
     response = {
         'version': request.json['version'],

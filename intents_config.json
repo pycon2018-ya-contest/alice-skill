@@ -14,6 +14,16 @@
         "entities": []
       },
       {
+        "text": "запусти навык морской бой соперник Яндекс",
+        "intent": "newgame",
+        "entities": []
+      },
+      {
+        "text": "запусти навык морской бой соперник Алиса",
+        "intent": "newgame",
+        "entities": []
+      },
+      {
         "text": "начать новую игру соперник Алиса",
         "intent": "newgame",
         "entities": []

@@ -39,5 +39,5 @@ def main():
     response_text = dm.handle_message(user_id, message)
     response['response']['text'] = response_text
 
-    logger.info('Response: %r', response)
+    logger.error('Response: %r', response)
     return json.dumps(response)

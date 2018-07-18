@@ -35,7 +35,9 @@ def main():
     }
     json_body = request.json
     user_id = json_body['session']['user_id']
-    message = json_body['request']['original_utterance']
+    message = json_body['request']['command'].strip()
+    if not message:
+        message = json_body['request']['original_utterance']
     response_text = dm.handle_message(user_id, message)
     response['response']['text'] = response_text
 

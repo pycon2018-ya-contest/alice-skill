@@ -35,6 +35,8 @@ def _handle_newgame(user_id, message):
 
 def _handle_letsstart(user_id, message):
     session_obj = sessions.get(user_id)
+    if session_obj is None:
+        return 'Необходимо инициализировать новую игру'
     opponent = session_obj['opponent']
     game_obj = session_obj['game']
     position = game_obj.do_shot()
@@ -44,6 +46,8 @@ def _handle_letsstart(user_id, message):
 
 def _handle_miss(user_id, message):
     session_obj = sessions.get(user_id)
+    if session_obj is None:
+        return 'Необходимо инициализировать новую игру'
     opponent = session_obj['opponent']
     game_obj = session_obj['game']
     # handle miss
@@ -63,6 +67,8 @@ def _handle_miss(user_id, message):
 
 def _handle_hit(user_id, message):
     session_obj = sessions.get(user_id)
+    if session_obj is None:
+        return 'Необходимо инициализировать новую игру'
     opponent = session_obj['opponent']
     game_obj = session_obj['game']
     # handle hit
@@ -74,6 +80,8 @@ def _handle_hit(user_id, message):
 
 def _handle_kill(user_id, message):
     session_obj = sessions.get(user_id)
+    if session_obj is None:
+        return 'Необходимо инициализировать новую игру'
     opponent = session_obj['opponent']
     game_obj = session_obj['game']
     # handle kill

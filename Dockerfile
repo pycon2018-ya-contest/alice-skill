@@ -1,4 +1,4 @@
-FROM frizzlywitch/pycon2018_skill:0.1
+FROM frizzlywitch/pycon2018_skill:0.7
 
 WORKDIR /skill/
 CMD PYTHONPATH=$PYTHONPATH:/skill/ FLASK_APP=/skill/seabattle/api.py flask run --host="::"

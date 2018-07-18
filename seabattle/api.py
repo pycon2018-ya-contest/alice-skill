@@ -4,20 +4,23 @@ from __future__ import unicode_literals
 
 import json
 import logging
+import sys
 
 from flask import Flask, request
+from flask.logging import default_handler
 
 from seabattle import dialog_manager as dm
 
 
 app = Flask(__name__)
-logger = logging.getLogger(__name__)
+app.logger.removeHandler(default_handler)
+app.logger.addHandler(logging.StreamHandler(stream=sys.stdout))
+app.logger.setLevel(logging.INFO)
 
 
-# Задаем параметры приложения Flask.
 @app.route('/', methods=['POST'])
 def main():
-    logger.info('Request: %r', request.json)
+    app.logger.info('Request: %r', request.json)
 
     response = {
         'version': request.json['version'],
@@ -32,5 +35,5 @@ def main():
     response_text = dm.handle_message(user_id, message)
     response['response']['text'] = response_text
 
-    logger.info('Response: %r', response)
+    app.logger.info('Response: %r', response)
     return json.dumps(response)

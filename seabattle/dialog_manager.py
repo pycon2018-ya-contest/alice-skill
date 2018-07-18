@@ -91,9 +91,17 @@ def _handle_kill(user_id, message):
     return '%s, я хожу %s' % (opponent, shot)
 
 
+def _handle_dontunderstand(user_id, message):
+    return 'реакция на не поняла'
+
+
 def handle_message(user_id, message):
     data = router.extract({'q': message})
     router_response = router.parse(data)
-    intent_name = router_response['intent']['name']
+    logger.info('Router response %r', router_response)
+    if router_response['intent']['confidence'] < 0.7:
+        intent_name = 'dontunderstand'
+    else:
+        intent_name = router_response['intent']['name']
     handler_name = '_handle_' + intent_name
     return globals()[handler_name](user_id, message)

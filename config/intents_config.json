@@ -125,6 +125,26 @@
         "text": "убила",
         "intent": "kill",
         "entities": []
+      },
+      {
+        "text": "не поняла",
+        "intent": "dontunderstand",
+        "entities": []
+      },
+      {
+        "text": "не понял",
+        "intent": "dontunderstand",
+        "entities": []
+      },
+      {
+        "text": "повтори последний ход",
+        "intent": "dontunderstand",
+        "entities": []
+      },
+      {
+        "text": "ничего не поняла повтори последний ход",
+        "intent": "dontunderstand",
+        "entities": []
       }
     ]
   }

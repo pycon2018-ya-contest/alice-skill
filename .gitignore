@@ -2,4 +2,5 @@
 *.pyc
 models/
 venv/
-mldata/
+mldata/default/
+.idea

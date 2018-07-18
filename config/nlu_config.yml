@@ -1,15 +1,19 @@
 language: "ru"
 
 pipeline:
-  - name: "tokenizer_whitespace"
   - name: "nlp_spacy"
     model: "xx_ent_wiki_sm"
     case_sensitive: false
+  - name: "tokenizer_spacy"
   - name: "intent_featurizer_spacy"
   - name: "intent_featurizer_ngrams"
     max_number_of_ngrams: 4
   - name: "intent_classifier_keyword"
   - name: "intent_classifier_sklearn"
   - name: "intent_classifier_tensorflow_embedding"
-  - name: "ner_spacy"
   - name: "ner_crf"
+    features: [["low", "title"], ["upper", "bias", "word3"], ["upper", "pos", "pos2"]]
+    BILOU_flag: true
+    max_iterations: 50
+    L1_c: 0.00000001
+    L2_c: 0.00000001

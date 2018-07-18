@@ -4,29 +4,64 @@
     "entity_synonyms": [],
     "common_examples": [
       {
-        "text": "новая игра соперник Алиса",
+        "text": "новая игра соперник алиса",
         "intent": "newgame",
-        "entities": []
+        "entities": [
+          {
+            "start": 20,
+            "end": 25,
+            "value": "алиса",
+            "entity": "opponent_entity"
+          }
+        ]
       },
       {
-        "text": "начни новую игру соперник Яндекс",
+        "text": "начни новую игру соперник яндекс",
         "intent": "newgame",
-        "entities": []
+        "entities": [
+          {
+            "start": 26,
+            "end": 32,
+            "value": "яндекс",
+            "entity": "opponent_entity"
+          }
+        ]
       },
       {
-        "text": "запусти навык морской бой соперник Яндекс",
+        "text": "запусти навык морской бой соперник яндекс",
         "intent": "newgame",
-        "entities": []
+        "entities": [
+          {
+            "start": 35,
+            "end": 41,
+            "value": "яндекс",
+            "entity": "opponent_entity"
+          }
+        ]
       },
       {
-        "text": "запусти навык морской бой соперник Алиса",
+        "text": "запусти навык морской бой соперник алиса",
         "intent": "newgame",
-        "entities": []
+        "entities": [
+          {
+            "start": 35,
+            "end": 40,
+            "value": "алиса",
+            "entity": "opponent_entity"
+          }
+        ]
       },
       {
-        "text": "начать новую игру соперник Алиса",
+        "text": "начать новую игру соперник алиса",
         "intent": "newgame",
-        "entities": []
+        "entities": [
+          {
+            "start": 27,
+            "end": 32,
+            "value": "алиса",
+            "entity": "opponent_entity"
+          }
+        ]
       },
       {
         "text": "начинай",
@@ -35,6 +70,11 @@
       },
       {
         "text": "начинай ходить",
+        "intent": "letsstart",
+        "entities": []
+      },
+      {
+        "text": "начни ходить",
         "intent": "letsstart",
         "entities": []
       },
@@ -63,12 +103,12 @@
         ]
       },
       {
-        "text": "мимо я хожу а2",
+        "text": "мимо я хожу а 2",
         "intent": "miss",
         "entities": [
           {
             "start": 16,
-            "end": 18,
+            "end": 19,
             "value": "a2",
             "entity": "hit_entity"
           }
@@ -82,6 +122,18 @@
             "start": 13,
             "end": 16,
             "value": "e10",
+            "entity": "hit_entity"
+          }
+        ]
+      },
+      {
+        "text": "мой ход к два",
+        "intent": "miss",
+        "entities": [
+          {
+            "start": 14,
+            "end": 23,
+            "value": "к два",
             "entity": "hit_entity"
           }
         ]

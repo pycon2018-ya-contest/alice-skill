@@ -4,6 +4,7 @@ pipeline:
   - name: "tokenizer_whitespace"
   - name: "nlp_spacy"
     model: "xx_ent_wiki_sm"
+    case_sensitive: false
   - name: "intent_featurizer_spacy"
   - name: "intent_featurizer_ngrams"
     max_number_of_ngrams: 4

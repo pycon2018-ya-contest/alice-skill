@@ -131,9 +131,21 @@
         "intent": "miss",
         "entities": [
           {
-            "start": 16,
-            "end": 19,
-            "value": "a2",
+            "start": 12,
+            "end": 15,
+            "value": "a 2",
+            "entity": "hit_entity"
+          }
+        ]
+      },
+      {
+        "text": "мимо я хожу з 3",
+        "intent": "miss",
+        "entities": [
+          {
+            "start": 12,
+            "end": 15,
+            "value": "з 3",
             "entity": "hit_entity"
           }
         ]
@@ -158,6 +170,18 @@
             "start": 14,
             "end": 23,
             "value": "к два",
+            "entity": "hit_entity"
+          }
+        ]
+      },
+      {
+        "text": "мимо я хожу г два",
+        "intent": "miss",
+        "entities": [
+          {
+            "start": 12,
+            "end": 17,
+            "value": "г два",
             "entity": "hit_entity"
           }
         ]

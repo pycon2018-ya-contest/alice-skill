@@ -23,21 +23,24 @@ AFTER_SHOT_MESSAGES = {
 
 
 def _get_entity(entities, entity_type):
-    return next(e['value'] for e in entities if e['entity'] == entity_type)
+    try:
+        return next(e['value'] for e in entities if e['entity'] == entity_type)
+    except StopIteration:
+        return None
 
 
 def _handle_newgame(user_id, message, entities):
     session_obj = sessions.get(user_id)
     if session_obj is None:
         session_obj = {'game': game.Game()}
-        sessions[user_id] = session_obj
     game_obj = session_obj['game']
     game_obj.start_new_game()
     if not entities:
-        return 'соперник не определен'
+        return 'Пожалуйста инициализируй новую игру и укажи соперника'
     opponent = _get_entity(entities, 'opponent_entity')
     session_obj['opponent'] = opponent
-    return 'новая игра c ' + opponent
+    sessions[user_id] = session_obj
+    return 'инициализирована новая игра c ' + opponent
 
 
 def _handle_letsstart(user_id, message, entities):
@@ -60,6 +63,8 @@ def _handle_miss(user_id, message, entities):
     # handle miss
     game_obj.handle_enemy_reply('miss')
     # handle shot
+    if not entities:
+        return 'не поняла пожалуйста повтори последний ход'
     enemy_shot = _get_entity(entities, 'hit_entity')
     enemy_position = game_obj.convert_to_position(enemy_shot)
     answer = game_obj.handle_enemy_shot(enemy_position)
@@ -99,7 +104,10 @@ def _handle_kill(user_id, message, entities):
 
 
 def _handle_dontunderstand(user_id, message, entities):
-    return 'реакция на не поняла'
+    last_response = sessions.get(user_id, {}).get('last_response')
+    if not last_response:
+        return 'Пожалуйста инициализируй новую игру и укажи соперника'
+    return last_response
 
 
 def handle_message(user_id, message):
@@ -111,4 +119,8 @@ def handle_message(user_id, message):
     else:
         intent_name = router_response['intent']['name']
     handler_name = '_handle_' + intent_name
-    return globals()[handler_name](user_id, message, router_response['entities'])
+    response_message = globals()[handler_name](user_id, message, router_response['entities'])
+    session_obj = sessions.get(user_id, {})
+    session_obj['last_response'] = response_message
+    sessions[user_id] = session_obj
+    return response_message

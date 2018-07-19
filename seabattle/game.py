@@ -15,7 +15,10 @@ MISS = 4
 
 
 class Game(object):
-    position_re = re.compile('([a-zа-я]+)\s*(\w+)', re.UNICODE)
+    position_patterns = [re.compile('^([a-zа-я]+)(\d+)$', re.UNICODE),  # a1
+                         re.compile('^([a-zа-я]*)\s+(\w+)$', re.UNICODE),  # a 1; a один
+                         re.compile('^(\w+)$', re.UNICODE)  # 1; один
+                         ]
 
     str_letters = ['а', 'б', 'в', 'г', 'д', 'е', 'ж', 'з', 'и', 'к']
     str_numbers = ['один', 'два', 'три', 'четыре', 'пять', 'шесть', 'семь', 'восемь', 'девять', 'десять']
@@ -190,15 +193,22 @@ class Game(object):
 
         return x, y
 
-    def convert_to_position(self, str_position):
-        match = self.position_re.match(str_position.lower())
+    def convert_to_position(self, position):
+        position = position.lower()
+        for pattern in self.position_patterns:
+            match = pattern.match(position)
 
-        if match is None:
-            raise ValueError('Can\'t parse entire position: %s' % str_position)
+            if match is not None:
+                break
+        else:
+            raise ValueError('Can\'t parse entire position: %s' % position)
 
-        pair = match.groups()
+        bits = match.groups()
 
-        x = pair[0].strip()
+        if len(bits) == 1:
+            bits = ('а', bits[0])
+
+        x = bits[0].strip()
         # преобразуем в кириллицу
         x = translit(x, 'ru')
         # преобразуем в координату
@@ -207,7 +217,7 @@ class Game(object):
         except ValueError:
             raise ValueError('Can\'t parse X point: %s' % x)
 
-        y = pair[1].strip()
+        y = bits[1].strip()
         if y.isdigit():
             y = int(y)
         else:

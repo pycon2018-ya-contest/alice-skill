@@ -41,8 +41,14 @@ def test_helper_functions(game):
     assert game.convert_to_position('д 5') == (5, 5)
     assert game.convert_to_position('g 3') == (4, 3)
 
+    assert game.convert_to_position('k 1') == (10, 1)
+    assert game.convert_to_position('k 2') == (10, 2)
+    assert game.convert_to_position('k 10') == (10, 10)
+
     assert game.convert_to_position('d пять') == (5, 5)
-    assert game.convert_to_position('т шесть') == (19, 6)
+
+    with pytest.raises(ValueError):
+        game.convert_to_position('т шесть')
 
     with pytest.raises(ValueError):
         game.convert_to_position('д пятнадцать')

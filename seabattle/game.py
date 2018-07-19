@@ -193,7 +193,10 @@ class Game(object):
         # преобразуем в кириллицу
         x = translit(x, 'ru')
         # преобразуем в координату
-        x = ord(x) - ord('а') + 1
+        try:
+            x = self.str_letters.index(x) + 1
+        except ValueError:
+            raise ValueError('Can\'t parse X point: %s' % x)
 
         y = pair[1].strip()
         if y.isdigit():

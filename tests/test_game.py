@@ -14,7 +14,7 @@ def game():
 
 
 @pytest.fixture
-def geme_with_field(game):
+def game_with_field(game):
     field = [0, 0, 0, 0, 0, 0, 1, 0, 0, 0,
              1, 1, 1, 0, 0, 0, 0, 0, 0, 0,
              0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -26,7 +26,7 @@ def geme_with_field(game):
              0, 1, 0, 0, 1, 1, 0, 0, 0, 0,
              0, 0, 0, 0, 0, 0, 0, 0, 1, 0]
 
-    game.start_new_game(field)
+    game.start_new_game(field=field)
 
     return game
 
@@ -54,15 +54,27 @@ def test_shot(game):
     pass
 
 
+def test_dead_ship(game_with_field):
+    assert game_with_field.handle_enemy_shot((7, 1)) == 'dead'
+
+    assert game_with_field.handle_enemy_shot((1, 5)) == 'hit'
+    assert game_with_field.handle_enemy_shot((2, 5)) == 'dead'
+
+    assert game_with_field.handle_enemy_shot((1, 2)) == 'hit'
+    assert game_with_field.handle_enemy_shot((2, 2)) == 'hit'
+    assert game_with_field.handle_enemy_shot((3, 2)) == 'dead'
+
+
 def test_repeat(game):
     shot = game.do_shot()
     assert shot == game.repeat()
 
 
-def test_handle_shot(geme_with_field):
-    assert geme_with_field.handle_enemy_shot((4, 7)) == 'hit'
-    assert geme_with_field.handle_enemy_shot((4, 7)) == 'hit'
-    assert geme_with_field.handle_enemy_shot((4, 2)) == 'miss'
+def test_handle_shot(game_with_field):
+    assert game_with_field.handle_enemy_shot((4, 7)) == 'hit'
+    assert game_with_field.handle_enemy_shot((4, 7)) == 'miss'
+
+    assert game_with_field.handle_enemy_shot((4, 2)) == 'miss'
 
 
 def test_handle_reply(game):

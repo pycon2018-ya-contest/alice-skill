@@ -8,36 +8,45 @@ import re
 
 from transliterate import translit
 
+EMPTY = 0
+SHIP = 1
+HIT = 2
+BLOCKED = 3
+
 
 class Game(object):
     position_re = re.compile('([a-zа-я]+)\s*(\w+)', re.UNICODE)
 
+    str_letters = ['а', 'б', 'в', 'г', 'д', 'е', 'ж', 'з', 'и', 'к']
     str_numbers = ['один', 'два', 'три', 'четыре', 'пять', 'шесть', 'семь', 'восемь', 'девять', 'десять']
 
     ships = [4, 3, 3, 2, 2, 2, 1, 1, 1, 1]
 
-    def __init__(self, size=10):
-        assert(size <= 10)
-
-        self.size = size
+    def __init__(self):
+        self.size = 0
         self.field = []
         self.enemy_field = []
+
+        self.ships_count = 0
+        self.enemy_ships_count = 0
 
         self.last_shot_position = None
         self.last_enemy_shot_position = None
 
-    def start_new_game(self, field=None):
-        """
-        0 - пусто
-        1 - корабль
-        2 - попадание
-        """
+    def start_new_game(self, size=10, field=None):
+        assert(size <= 10)
+        assert(len(field) == size ** 2 if field is not None else True)
+
+        self.size = size
+
         if field is None:
             self.generate_field()
         else:
             self.field = field
 
-        self.enemy_field = [0] * self.size ** 2
+        self.enemy_field = [EMPTY] * self.size ** 2
+
+        self.ships_count = self.enemy_ships_count = len(self.ships)
 
         self.last_shot_position = None
         self.last_enemy_shot_position = None
@@ -49,8 +58,8 @@ class Game(object):
             self.place_ship(length)
 
         for i in range(0, len(self.field)):
-            if self.field[i] == 2:
-                self.field[i] = 0
+            if self.field[i] == BLOCKED:
+                self.field[i] = EMPTY
 
     def print_field(self):
         mapping = [' ', '0', 'x']
@@ -85,12 +94,12 @@ class Game(object):
 
                         if (neighbour_index < 0
                                 or neighbour_index >= len(self.field)
-                                or self.field[neighbour_index] == 1):
+                                or self.field[neighbour_index] == SHIP):
                             continue
 
-                        self.field[neighbour_index] = 2
+                        self.field[neighbour_index] = BLOCKED
 
-                self.field[current_index] = 1
+                self.field[current_index] = SHIP
 
             return True
 
@@ -100,10 +109,11 @@ class Game(object):
     def handle_enemy_shot(self, position):
         index = self.calc_index(position)
 
-        if self.field[index] in (1, 2):
-            self.field[index] = 2
+        if self.field[index] == SHIP:
+            self.field[index] = HIT
 
             if self.is_dead_ship(index):
+                self.ships_count -= 1
                 return 'dead'
             else:
                 return 'hit'
@@ -111,24 +121,30 @@ class Game(object):
             return 'miss'
 
     def is_dead_ship(self, last_index):
-        return False
         x, y = self.calc_position(last_index)
+        x -= 1
+        y -= 1
 
-        def _is_dead(line, index):
-            for i in line[index:]:
-                if i == 1:
-                    return True
+        def _line_is_dead(line, index):
+            def _tail_is_dead(tail):
+                for i in tail:
+                    if i == HIT:
+                        continue
+                    elif i == SHIP:
+                        return False
+                    else:
+                        return True
+                return True
 
-            for i in line[index::-1]:
-                if i == 1:
-                    return True
+            return _tail_is_dead(line[index:]) and _tail_is_dead(line[index::-1])
 
-            return False
+        return _line_is_dead(self.field[x::self.size], y) and _line_is_dead(self.field[y*self.size:(y+1)*self.size], x)
 
-        return _is_dead(self.field[x::self.size], y) and _is_dead(self.field[y*self.size:(y+1)*self.size], x)
+    def is_end_game(self):
+        return self.ships_count < 1 or self.enemy_ships_count < 1
 
     def do_shot(self):
-        index = random.choice([i for i, v in enumerate(self.enemy_field) if v == 0])
+        index = random.choice([i for i, v in enumerate(self.enemy_field) if v == EMPTY])
 
         self.last_shot_position = self.calc_position(index)
         return self.last_shot_position
@@ -142,9 +158,13 @@ class Game(object):
         index = self.calc_index(self.last_shot_position)
 
         if message in ['hit', 'kill']:
-            self.enemy_field[index] = 2
+            self.enemy_field[index] = SHIP
+
+            if message == 'kill':
+                self.enemy_ships_count -= 1
+
         elif message == 'miss':
-            self.enemy_field[index] = 0
+            self.enemy_field[index] = EMPTY
 
     def calc_index(self, position):
         x, y = position
@@ -157,7 +177,7 @@ class Game(object):
         return x, y
 
     def convert_to_position(self, str_position):
-        match = self.position_re.match(str_position)
+        match = self.position_re.match(str_position.lower())
 
         if match is None:
             raise ValueError('Can\'t parse entire position: %s' % str_position)
@@ -182,9 +202,4 @@ class Game(object):
         return x, y
 
     def convert_from_position(self, position):
-        return '%s%s' % (unichr(position[0] + ord('а') - 1), position[1])
-
-
-if __name__ == "__main__":
-    import doctest
-    doctest.testmod()
+        return '%s%s' % (self.str_letters[position[0] - 1], position[1])

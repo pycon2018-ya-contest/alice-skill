@@ -76,9 +76,7 @@ def _handle_miss(user_id, message, entities):
     if answer == 'dead' and game_obj.is_defeat():
         return 'проигрыш'
     elif answer == 'miss':
-        position = game_obj.do_shot()
-        shot = game_obj.convert_from_position(position)
-        response_dict['shot'] = shot
+        response_dict['shot'] = game_obj.do_shot()
     return AFTER_SHOT_MESSAGES[answer] % response_dict
 
 
@@ -90,8 +88,7 @@ def _handle_hit(user_id, message, entities):
     game_obj = session_obj['game']
     # handle hit
     game_obj.handle_enemy_reply('hit')
-    position = game_obj.do_shot()
-    shot = game_obj.convert_from_position(position)
+    shot = game_obj.do_shot()
     return 'я хожу %s' % shot
 
 
@@ -103,8 +100,7 @@ def _handle_kill(user_id, message, entities):
     game_obj = session_obj['game']
     # handle kill
     game_obj.handle_enemy_reply('kill')
-    position = game_obj.do_shot()
-    shot = game_obj.convert_from_position(position)
+    shot = game_obj.do_shot()
     if game_obj.is_victory():
         return 'Ура победа'
     else:

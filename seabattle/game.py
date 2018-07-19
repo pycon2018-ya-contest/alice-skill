@@ -144,10 +144,13 @@ class Game(object):
         )
 
     def is_end_game(self):
-        return self.ships_count < 1 or self.enemy_ships_count < 1
+        return self.is_victory() or self.is_defeat()
 
     def is_victory(self):
         return self.enemy_ships_count < 1
+
+    def is_defeat(self):
+        return self.ships_count < 1
 
     def do_shot(self):
         index = random.choice([i for i, v in enumerate(self.enemy_field) if v == EMPTY])

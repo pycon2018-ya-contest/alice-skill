@@ -132,7 +132,7 @@ def handle_message(user_id, message):
     data = router.extract({'q': message})
     router_response = router.parse(data)
     logger.error('Router response %s', json.dumps(router_response, indent=2))
-    if router_response['intent']['confidence'] < 0.7:
+    if router_response['intent']['confidence'] < 0.75:
         intent_name = 'dontunderstand'
     else:
         intent_name = router_response['intent']['name']

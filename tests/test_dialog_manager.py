@@ -16,23 +16,27 @@ def say(message):
 
 
 def newgame(opponent):
-    return dm.AFTER_SHOT_MESSAGES['newgame'] % {'opponent': opponent}
+    return dm.MESSAGE_TEMPLATES['newgame'] % {'opponent': opponent}
 
 
 def shot(shot):
-    return dm.AFTER_SHOT_MESSAGES['shot'] % {'shot': shot}
+    return dm.MESSAGE_TEMPLATES['shot'] % {'shot': shot}
 
 
 def miss(shot):
-    return dm.AFTER_SHOT_MESSAGES['miss'] % {'shot': shot}
+    return dm.MESSAGE_TEMPLATES['miss'] % {'shot': shot}
 
 
 def kill():
-    return dm.AFTER_SHOT_MESSAGES['kill']
+    return dm.MESSAGE_TEMPLATES['kill']
 
 
 def hit():
-    return dm.AFTER_SHOT_MESSAGES['hit']
+    return dm.MESSAGE_TEMPLATES['hit']
+
+
+def defeat():
+    return dm.MESSAGE_TEMPLATES['defeat']
 
 
 def test_game_1():
@@ -62,4 +66,4 @@ def test_game_1():
     assert say('ранил') == shot(shots[3])
     assert say('убил') == shot(shots[4])
     assert say('мимо. я хожу а 2') == kill()
-    assert say('ура победа') == 'я проиграл'
+    assert say('ура победа') == defeat()

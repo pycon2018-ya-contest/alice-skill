@@ -15,12 +15,14 @@ router = DataRouter('mldata/')
 # mapping: user_id -> user payload dictionary
 sessions = {}
 
-AFTER_SHOT_MESSAGES = {
+MESSAGE_TEMPLATES = {
     'miss': 'Мимо. Я хожу %(shot)s',
     'hit': 'Ранил',
     'kill': 'Убил',
     'newgame': 'Инициализирована новая игра c %(opponent)s',
     'shot': 'Я хожу %(shot)s',
+    'defeat': 'Я проиграл',
+    'victory': 'Ура, победа!',
 }
 
 
@@ -43,7 +45,7 @@ def _handle_newgame(user_id, message, entities):
     session_obj['opponent'] = opponent
     sessions[user_id] = session_obj
     response_dict = {'opponent': opponent}
-    return (AFTER_SHOT_MESSAGES['newgame'] % response_dict, 'newgame')
+    return (MESSAGE_TEMPLATES['newgame'] % response_dict, 'newgame')
 
 
 def _handle_letsstart(user_id, message, entities):
@@ -52,7 +54,7 @@ def _handle_letsstart(user_id, message, entities):
         return ('Необходимо инициализировать новую игру', 'dontunderstand')
     game_obj = session_obj['game']
     shot = game_obj.do_shot()
-    return (AFTER_SHOT_MESSAGES['shot'] % {'shot': shot}, 'miss')
+    return (MESSAGE_TEMPLATES['shot'] % {'shot': shot}, 'miss')
 
 
 def _handle_miss(user_id, message, entities):
@@ -76,7 +78,7 @@ def _handle_miss(user_id, message, entities):
     # opponent -> missed do shot
     if answer == 'miss':
         response_dict['shot'] = game_obj.do_shot()
-    return (AFTER_SHOT_MESSAGES[answer] % response_dict, answer)
+    return (MESSAGE_TEMPLATES[answer] % response_dict, answer)
 
 
 def _handle_hit(user_id, message, entities):
@@ -87,7 +89,7 @@ def _handle_hit(user_id, message, entities):
     # handle hit
     game_obj.handle_enemy_reply('hit')
     shot = game_obj.do_shot()
-    return (AFTER_SHOT_MESSAGES['shot'] % {'shot': shot}, 'miss')
+    return (MESSAGE_TEMPLATES['shot'] % {'shot': shot}, 'miss')
 
 
 def _handle_kill(user_id, message, entities):
@@ -101,7 +103,7 @@ def _handle_kill(user_id, message, entities):
     if game_obj.is_victory():
         return ('Ура победа', 'victory')
     else:
-        return (AFTER_SHOT_MESSAGES['shot'] % {'shot': shot}, 'miss')
+        return (MESSAGE_TEMPLATES['shot'] % {'shot': shot}, 'miss')
 
 
 def _handle_dontunderstand(user_id, message, entities):
@@ -112,18 +114,18 @@ def _handle_dontunderstand(user_id, message, entities):
         return ('Пожалуйста инициализируй новую игру и укажи соперника', 'dontunderstand')
     elif last['message_type'] == 'miss':
         shot = game_obj.repeat()
-        return (AFTER_SHOT_MESSAGES['miss'] % {'shot': shot}, 'miss')
+        return (MESSAGE_TEMPLATES['miss'] % {'shot': shot}, 'miss')
     return (last['message'], 'dontunderstand')
 
 
 def _handle_victory(user_id, message, entities):
     sessions[user_id] = {}
-    return ('я проиграл', 'defeat')
+    return (MESSAGE_TEMPLATES['defeat'], 'defeat')
 
 
 def _handle_defeat(user_id, message, entities):
     sessions[user_id] = {}
-    return ('Ура победа', 'victory')
+    return (MESSAGE_TEMPLATES['defeat'], 'victory')
 
 
 def handle_message(user_id, message):

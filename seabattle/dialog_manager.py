@@ -19,6 +19,8 @@ AFTER_SHOT_MESSAGES = {
     'miss': 'Мимо. Я хожу %(shot)s',
     'hit': 'Ранил',
     'kill': 'Убил',
+    'newgame': 'Инициализирована новая игра c %(opponent)s',
+    'shot': 'Я хожу %(shot)s',
 }
 
 
@@ -40,7 +42,8 @@ def _handle_newgame(user_id, message, entities):
     opponent = _get_entity(entities, 'opponent_entity')
     session_obj['opponent'] = opponent
     sessions[user_id] = session_obj
-    return ('инициализирована новая игра c ' + opponent, 'newgame')
+    response_dict = {'opponent': opponent}
+    return (AFTER_SHOT_MESSAGES['newgame'] % response_dict, 'newgame')
 
 
 def _handle_letsstart(user_id, message, entities):
@@ -49,7 +52,7 @@ def _handle_letsstart(user_id, message, entities):
         return ('Необходимо инициализировать новую игру', 'dontunderstand')
     game_obj = session_obj['game']
     shot = game_obj.do_shot()
-    return ('я хожу %s' % shot, 'miss')
+    return (AFTER_SHOT_MESSAGES['shot'] % {'shot': shot}, 'miss')
 
 
 def _handle_miss(user_id, message, entities):
@@ -84,7 +87,7 @@ def _handle_hit(user_id, message, entities):
     # handle hit
     game_obj.handle_enemy_reply('hit')
     shot = game_obj.do_shot()
-    return ('я хожу %s' % shot, 'miss')
+    return (AFTER_SHOT_MESSAGES['shot'] % {'shot': shot}, 'miss')
 
 
 def _handle_kill(user_id, message, entities):
@@ -98,7 +101,7 @@ def _handle_kill(user_id, message, entities):
     if game_obj.is_victory():
         return ('Ура победа', 'victory')
     else:
-        return ('я хожу %s' % shot, 'miss')
+        return (AFTER_SHOT_MESSAGES['shot'] % {'shot': shot}, 'miss')
 
 
 def _handle_dontunderstand(user_id, message, entities):

@@ -28,10 +28,11 @@ class Game(object):
                        'за': 'з',
                        'уже': 'ж'}
 
-    ships = [4, 3, 3, 2, 2, 2, 1, 1, 1, 1]
+    default_ships = [4, 3, 3, 2, 2, 2, 1, 1, 1, 1]
 
     def __init__(self):
         self.size = 0
+        self.ships = None
         self.field = []
         self.enemy_field = []
 
@@ -41,11 +42,16 @@ class Game(object):
         self.last_shot_position = None
         self.last_enemy_shot_position = None
 
-    def start_new_game(self, size=10, field=None):
+    def start_new_game(self, size=10, field=None, ships=None):
         assert(size <= 10)
         assert(len(field) == size ** 2 if field is not None else True)
 
         self.size = size
+
+        if ships is None:
+            self.ships = self.default_ships
+        else:
+            self.ships = ships
 
         if field is None:
             self.generate_field()

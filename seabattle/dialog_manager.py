@@ -16,9 +16,9 @@ router = DataRouter('mldata/')
 sessions = {}
 
 AFTER_SHOT_MESSAGES = {
-    'miss': 'мимо я хожу %(shot)s',
-    'hit': 'ранил',
-    'kill': 'убил',
+    'miss': 'Мимо. Я хожу %(shot)s',
+    'hit': 'Ранил',
+    'kill': 'Убил',
 }
 
 
@@ -47,7 +47,6 @@ def _handle_letsstart(user_id, message, entities):
     session_obj = sessions.get(user_id)
     if session_obj is None or 'game' not in session_obj:
         return ('Необходимо инициализировать новую игру', 'dontunderstand')
-    # opponent = session_obj['opponent']
     game_obj = session_obj['game']
     shot = game_obj.do_shot()
     return ('я хожу %s' % shot, 'miss')
@@ -71,10 +70,8 @@ def _handle_miss(user_id, message, entities):
     except ValueError:
         return ('не поняла пожалуйста повтори последний ход', 'dontunderstand')
     response_dict = {'opponent': opponent}
-    # if opponent missed do shot
-    if answer == 'kill' and game_obj.is_defeat():
-        return ('проигрыш', 'defeat')
-    elif answer == 'miss':
+    # opponent -> missed do shot
+    if answer == 'miss':
         response_dict['shot'] = game_obj.do_shot()
     return (AFTER_SHOT_MESSAGES[answer] % response_dict, answer)
 
@@ -83,7 +80,6 @@ def _handle_hit(user_id, message, entities):
     session_obj = sessions.get(user_id)
     if session_obj is None or 'game' not in session_obj:
         return 'Необходимо инициализировать новую игру'
-    # opponent = session_obj['opponent']
     game_obj = session_obj['game']
     # handle hit
     game_obj.handle_enemy_reply('hit')
@@ -95,7 +91,6 @@ def _handle_kill(user_id, message, entities):
     session_obj = sessions.get(user_id)
     if session_obj is None or 'game' not in session_obj:
         return 'Необходимо инициализировать новую игру'
-    # opponent = session_obj['opponent']
     game_obj = session_obj['game']
     # handle kill
     game_obj.handle_enemy_reply('kill')

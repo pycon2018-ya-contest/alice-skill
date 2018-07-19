@@ -17,7 +17,7 @@ handler = logging.StreamHandler(stream=sys.stderr)
 handler.setLevel(logging.INFO)
 formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 handler.setFormatter(formatter)
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('seabattle')
 logger.addHandler(handler)
 logger.setLevel(logging.INFO)
 

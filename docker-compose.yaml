@@ -1,6 +1,12 @@
 version: '2.1'
 
 services:
+  deps:
+    build:
+      context: .
+      dockerfile: base.Dockerfile
+    image: frizzlywitch/pycon2018_skill
+
   base:
     build: .
 

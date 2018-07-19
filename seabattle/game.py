@@ -16,7 +16,8 @@ MISS = 4
 
 class Game(object):
     position_patterns = [re.compile('^([a-zа-я]+)(\d+)$', re.UNICODE),  # a1
-                         re.compile('^([a-zа-я]*)\s+(\w+)$', re.UNICODE),  # a 1; a один
+                         re.compile('^([a-zа-я]+)\s+(\w+)$', re.UNICODE),  # a 1; a один
+                         re.compile('^(\w+)\s+(\w+)$', re.UNICODE),  # a 1; a один; 7 10
                          re.compile('^(\w+)$', re.UNICODE)  # 1; один
                          ]
 
@@ -159,10 +160,10 @@ class Game(object):
         index = random.choice([i for i, v in enumerate(self.enemy_field) if v == EMPTY])
 
         self.last_shot_position = self.calc_position(index)
-        return self.last_shot_position
+        return self.convert_from_position(self.last_shot_position)
 
     def repeat(self):
-        return self.last_shot_position
+        return self.convert_from_position(self.last_shot_position, numbers=True)
 
     def handle_enemy_reply(self, message):
         if self.last_shot_position is None:
@@ -208,25 +209,46 @@ class Game(object):
         if len(bits) == 1:
             bits = ('а', bits[0])
 
+        def _try_letter(bit):
+            try:
+                return self.str_letters.index(bit) + 1
+            except ValueError:
+                raise
+
+        def _try_number(bit):
+            if bit.isdigit():
+                return int(bit)
+            else:
+                try:
+                    return self.str_numbers.index(bit) + 1
+                except ValueError:
+                    raise
+
         x = bits[0].strip()
         # преобразуем в кириллицу
         x = translit(x, 'ru')
-        # преобразуем в координату
         try:
-            x = self.str_letters.index(x) + 1
+            x = _try_letter(x)
         except ValueError:
-            raise ValueError('Can\'t parse X point: %s' % x)
+            try:
+                x = _try_number(x)
+            except ValueError:
+                raise ValueError('Can\'t parse X point: %s' % x)
 
         y = bits[1].strip()
-        if y.isdigit():
-            y = int(y)
-        else:
-            try:
-                y = self.str_numbers.index(y) + 1
-            except ValueError:
-                raise ValueError('Can\'t parse Y point: %s' % y)
+        try:
+            y = _try_number(y)
+        except ValueError:
+            raise ValueError('Can\'t parse Y point: %s' % y)
 
         return x, y
 
-    def convert_from_position(self, position):
-        return '%s %s' % (self.str_letters[position[0] - 1], position[1])
+    def convert_from_position(self, position, numbers=False):
+        if numbers:
+            x = position[0]
+        else:
+            x = self.str_letters[position[0] - 1]
+
+        y = position[1]
+
+        return '%s %s' % (x, y)

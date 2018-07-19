@@ -74,8 +74,7 @@ def _handle_miss(user_id, message, entities):
     response_dict = {'opponent': opponent}
     # if opponent missed do shot
     if answer == 'miss':
-        position = game_obj.do_shot()
-        shot = game_obj.convert_from_position(position)
+        shot = game_obj.do_shot()
         response_dict['shot'] = shot
     return AFTER_SHOT_MESSAGES[answer] % response_dict
 
@@ -88,8 +87,7 @@ def _handle_hit(user_id, message, entities):
     game_obj = session_obj['game']
     # handle hit
     game_obj.handle_enemy_reply('hit')
-    position = game_obj.do_shot()
-    shot = game_obj.convert_from_position(position)
+    shot = game_obj.do_shot()
     return 'я хожу %s' % shot
 
 
@@ -101,8 +99,7 @@ def _handle_kill(user_id, message, entities):
     game_obj = session_obj['game']
     # handle kill
     game_obj.handle_enemy_reply('kill')
-    position = game_obj.do_shot()
-    shot = game_obj.convert_from_position(position)
+    shot = game_obj.do_shot()
     if game_obj.is_end_game():
         if game_obj.enemy_ships_count < 1:
             return 'Ура! победа!'

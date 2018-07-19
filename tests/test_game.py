@@ -51,6 +51,10 @@ def test_helper_functions(game):
     assert game.convert_to_position('1') == (1, 1)
     assert game.convert_to_position('шесть') == (1, 6)
 
+    assert game.convert_to_position('10 10') == (10, 10)
+    assert game.convert_to_position('1 2') == (1, 2)
+    assert game.convert_to_position('8 4') == (8, 4)
+
     with pytest.raises(ValueError):
         game.convert_to_position('т шесть')
 
@@ -59,6 +63,7 @@ def test_helper_functions(game):
 
     assert game.convert_from_position((1, 1)) == 'а 1'
     assert game.convert_from_position((6, 5)) == 'е 5'
+    assert game.convert_from_position((6, 5), numbers=True) == '6 5'
 
 
 def test_shot(game):
@@ -77,8 +82,8 @@ def test_dead_ship(game_with_field):
 
 
 def test_repeat(game):
-    shot = game.do_shot()
-    assert shot == game.repeat()
+    game.last_shot_position = (5, 7)
+    assert '5 7' == game.repeat()
 
 
 def test_handle_shot(game_with_field):

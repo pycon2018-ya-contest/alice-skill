@@ -31,7 +31,7 @@ def _get_entity(entities, entity_type):
 
 def _handle_newgame(user_id, message, entities):
     session_obj = sessions.get(user_id)
-    if session_obj is None:
+    if session_obj is None or 'game' not in session_obj:
         session_obj = {'game': game.Game()}
     game_obj = session_obj['game']
     game_obj.start_new_game()
@@ -45,7 +45,7 @@ def _handle_newgame(user_id, message, entities):
 
 def _handle_letsstart(user_id, message, entities):
     session_obj = sessions.get(user_id)
-    if session_obj is None:
+    if session_obj is None or 'game' not in session_obj:
         return 'Необходимо инициализировать новую игру'
     opponent = session_obj['opponent']
     game_obj = session_obj['game']
@@ -56,7 +56,7 @@ def _handle_letsstart(user_id, message, entities):
 
 def _handle_miss(user_id, message, entities):
     session_obj = sessions.get(user_id)
-    if session_obj is None:
+    if session_obj is None or 'game' not in session_obj:
         return 'Необходимо инициализировать новую игру'
     opponent = session_obj['opponent']
     game_obj = session_obj['game']
@@ -79,7 +79,7 @@ def _handle_miss(user_id, message, entities):
 
 def _handle_hit(user_id, message, entities):
     session_obj = sessions.get(user_id)
-    if session_obj is None:
+    if session_obj is None or 'game' not in session_obj:
         return 'Необходимо инициализировать новую игру'
     opponent = session_obj['opponent']
     game_obj = session_obj['game']
@@ -92,7 +92,7 @@ def _handle_hit(user_id, message, entities):
 
 def _handle_kill(user_id, message, entities):
     session_obj = sessions.get(user_id)
-    if session_obj is None:
+    if session_obj is None or 'game' not in session_obj:
         return 'Необходимо инициализировать новую игру'
     opponent = session_obj['opponent']
     game_obj = session_obj['game']

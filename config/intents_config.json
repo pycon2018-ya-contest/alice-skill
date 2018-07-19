@@ -16,6 +16,30 @@
         ]
       },
       {
+        "text": "новая игра c алисой",
+        "intent": "newgame",
+        "entities": [
+          {
+            "start": 13,
+            "end": 19,
+            "value": "алиса",
+            "entity": "opponent_entity"
+          }
+        ]
+      },
+      {
+        "text": "новая игра c яндексом",
+        "intent": "newgame",
+        "entities": [
+          {
+            "start": 13,
+            "end": 21,
+            "value": "яндекс",
+            "entity": "opponent_entity"
+          }
+        ]
+      },
+      {
         "text": "начни новую игру соперник яндекс",
         "intent": "newgame",
         "entities": [
@@ -134,6 +158,30 @@
             "start": 14,
             "end": 23,
             "value": "к два",
+            "entity": "hit_entity"
+          }
+        ]
+      },
+      {
+        "text": "мимо я хожу ж десять",
+        "intent": "miss",
+        "entities": [
+          {
+            "start": 12,
+            "end": 20,
+            "value": "ж десять",
+            "entity": "hit_entity"
+          }
+        ]
+      },
+      {
+        "text": "мимо мой ход и восемь",
+        "intent": "miss",
+        "entities": [
+          {
+            "start": 13,
+            "end": 21,
+            "value": "и восемь",
             "entity": "hit_entity"
           }
         ]

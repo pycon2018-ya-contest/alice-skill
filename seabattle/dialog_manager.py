@@ -49,8 +49,7 @@ def _handle_letsstart(user_id, message, entities):
         return ('Необходимо инициализировать новую игру', 'dontunderstand')
     # opponent = session_obj['opponent']
     game_obj = session_obj['game']
-    position = game_obj.do_shot()
-    shot = game_obj.convert_from_position(position)
+    shot = game_obj.do_shot()
     return ('я хожу %s' % shot, 'miss')
 
 
@@ -116,7 +115,7 @@ def _handle_dontunderstand(user_id, message, entities):
     elif last['message_type'] == 'miss':
         shot = game_obj.repeat()
         return AFTER_SHOT_MESSAGES['miss'] % {'shot': shot}
-    return (last_response, 'dontunderstand')
+    return (last['message'], 'dontunderstand')
 
 
 def _handle_victory(user_id, message, entities):

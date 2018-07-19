@@ -36,7 +36,7 @@ def _handle_newgame(user_id, message, entities):
     if session_obj is None or 'game' not in session_obj:
         session_obj = {'game': game.Game()}
     game_obj = session_obj['game']
-    game_obj.start_new_game()
+    game_obj.start_new_game(numbers=True)
     if not entities:
         return ('Пожалуйста инициализируй новую игру и укажи соперника', 'dontunderstand')
     opponent = _get_entity(entities, 'opponent_entity')

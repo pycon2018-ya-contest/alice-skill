@@ -41,12 +41,14 @@ class Game(object):
 
         self.last_shot_position = None
         self.last_enemy_shot_position = None
+        self.numbers = None
 
-    def start_new_game(self, size=10, field=None, ships=None):
+    def start_new_game(self, size=10, field=None, ships=None, numbers=None):
         assert(size <= 10)
         assert(len(field) == size ** 2 if field is not None else True)
 
         self.size = size
+        self.numbers = numbers if numbers is not None else False
 
         if ships is None:
             self.ships = self.default_ships
@@ -257,7 +259,9 @@ class Game(object):
 
         return x, y
 
-    def convert_from_position(self, position, numbers=False):
+    def convert_from_position(self, position, numbers=None):
+        numbers = numbers if numbers is not None else self.numbers
+
         if numbers:
             x = position[0]
         else:
@@ -265,4 +269,4 @@ class Game(object):
 
         y = position[1]
 
-        return '%s %s' % (x, y)
+        return '%s, %s' % (x, y)

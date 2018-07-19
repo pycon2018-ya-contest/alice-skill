@@ -42,6 +42,7 @@ def test_helper_functions(game):
     assert game.convert_to_position('g 3') == (4, 3)
 
     assert game.convert_to_position('d пять') == (5, 5)
+    assert game.convert_to_position('т шесть') == (19, 6)
 
     with pytest.raises(ValueError):
         game.convert_to_position('д пятнадцать')
@@ -75,6 +76,9 @@ def test_handle_shot(game_with_field):
     assert game_with_field.handle_enemy_shot((4, 7)) == 'miss'
 
     assert game_with_field.handle_enemy_shot((4, 2)) == 'miss'
+
+    with pytest.raises(ValueError):
+        game_with_field.handle_enemy_shot((19, 6))
 
 
 def test_handle_reply(game):

@@ -153,7 +153,8 @@ class Game(object):
         return self.last_shot_position
 
     def handle_enemy_reply(self, message):
-        assert(self.last_shot_position is not None)
+        if self.last_shot_position is None:
+            return
 
         index = self.calc_index(self.last_shot_position)
 
@@ -168,6 +169,10 @@ class Game(object):
 
     def calc_index(self, position):
         x, y = position
+
+        if x > self.size or y > self.size:
+            raise ValueError('Wrong position: %s %s' % (x, y))
+
         return (y - 1) * self.size + x - 1
 
     def calc_position(self, index):

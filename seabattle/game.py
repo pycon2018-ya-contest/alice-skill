@@ -24,6 +24,10 @@ class Game(object):
     str_letters = ['а', 'б', 'в', 'г', 'д', 'е', 'ж', 'з', 'и', 'к']
     str_numbers = ['один', 'два', 'три', 'четыре', 'пять', 'шесть', 'семь', 'восемь', 'девять', 'десять']
 
+    letters_mapping = {'the': 'з',
+                       'за': 'з',
+                       'уже': 'ж'}
+
     ships = [4, 3, 3, 2, 2, 2, 1, 1, 1, 1]
 
     def __init__(self):
@@ -210,6 +214,12 @@ class Game(object):
             bits = ('а', bits[0])
 
         def _try_letter(bit):
+            # проверяем особые случаи неправильного распознования STT
+            bit = self.letters_mapping.get(bit, bit)
+
+            # преобразуем в кириллицу
+            bit = translit(bit, 'ru')
+
             try:
                 return self.str_letters.index(bit) + 1
             except ValueError:
@@ -225,8 +235,6 @@ class Game(object):
                     raise
 
         x = bits[0].strip()
-        # преобразуем в кириллицу
-        x = translit(x, 'ru')
         try:
             x = _try_letter(x)
         except ValueError:

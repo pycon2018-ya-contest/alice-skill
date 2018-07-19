@@ -30,7 +30,7 @@ def main():
         'version': request.json['version'],
         'session': request.json['session'],
         'response': {
-            'end_session': True
+            'end_session': False
         }
     }
     json_body = request.json

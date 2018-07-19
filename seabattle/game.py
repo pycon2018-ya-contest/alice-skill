@@ -3,7 +3,6 @@
 from __future__ import unicode_literals
 
 import random
-import string
 import re
 
 from transliterate import translit
@@ -138,7 +137,10 @@ class Game(object):
 
             return _tail_is_dead(line[index:]) and _tail_is_dead(line[index::-1])
 
-        return _line_is_dead(self.field[x::self.size], y) and _line_is_dead(self.field[y*self.size:(y+1)*self.size], x)
+        return (
+            _line_is_dead(self.field[x::self.size], y) and
+            _line_is_dead(self.field[y * self.size:(y + 1) * self.size], x)
+        )
 
     def is_end_game(self):
         return self.ships_count < 1 or self.enemy_ships_count < 1

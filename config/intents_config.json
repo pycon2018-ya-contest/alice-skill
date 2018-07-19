@@ -139,6 +139,18 @@
         ]
       },
       {
+        "text": "мимо я хожу к 2",
+        "intent": "miss",
+        "entities": [
+          {
+            "start": 12,
+            "end": 15,
+            "value": "к 2",
+            "entity": "hit_entity"
+          }
+        ]
+      },
+      {
         "text": "мимо я хожу з 3",
         "intent": "miss",
         "entities": [

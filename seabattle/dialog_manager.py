@@ -16,9 +16,9 @@ router = DataRouter('mldata/')
 sessions = {}
 
 AFTER_SHOT_MESSAGES = {
-    'miss': '%(opponent)s, мимо я хожу %(shot)s',
-    'hit': '%(opponent)s, ранил',
-    'kill': '%(opponent)s, убил',
+    'miss': 'мимо я хожу %(shot)s',
+    'hit': 'ранил',
+    'dead': 'убил',
 }
 
 
@@ -47,11 +47,11 @@ def _handle_letsstart(user_id, message, entities):
     session_obj = sessions.get(user_id)
     if session_obj is None or 'game' not in session_obj:
         return 'Необходимо инициализировать новую игру'
-    opponent = session_obj['opponent']
+    # opponent = session_obj['opponent']
     game_obj = session_obj['game']
     position = game_obj.do_shot()
     shot = game_obj.convert_from_position(position)
-    return '%s, я хожу %s' % (opponent, shot)
+    return 'я хожу %s' % shot
 
 
 def _handle_miss(user_id, message, entities):
@@ -66,8 +66,11 @@ def _handle_miss(user_id, message, entities):
     if not entities:
         return 'не поняла пожалуйста повтори последний ход'
     enemy_shot = _get_entity(entities, 'hit_entity')
-    enemy_position = game_obj.convert_to_position(enemy_shot)
-    answer = game_obj.handle_enemy_shot(enemy_position)
+    try:
+        enemy_position = game_obj.convert_to_position(enemy_shot)
+        answer = game_obj.handle_enemy_shot(enemy_position)
+    except ValueError:
+        return 'не поняла пожалуйста повтори последний ход'
     response_dict = {'opponent': opponent}
     # if opponent missed do shot
     if answer == 'miss':
@@ -81,26 +84,32 @@ def _handle_hit(user_id, message, entities):
     session_obj = sessions.get(user_id)
     if session_obj is None or 'game' not in session_obj:
         return 'Необходимо инициализировать новую игру'
-    opponent = session_obj['opponent']
+    # opponent = session_obj['opponent']
     game_obj = session_obj['game']
     # handle hit
     game_obj.handle_enemy_reply('hit')
     position = game_obj.do_shot()
     shot = game_obj.convert_from_position(position)
-    return '%s, я хожу %s' % (opponent, shot)
+    return 'я хожу %s' % shot
 
 
 def _handle_kill(user_id, message, entities):
     session_obj = sessions.get(user_id)
     if session_obj is None or 'game' not in session_obj:
         return 'Необходимо инициализировать новую игру'
-    opponent = session_obj['opponent']
+    # opponent = session_obj['opponent']
     game_obj = session_obj['game']
     # handle kill
     game_obj.handle_enemy_reply('kill')
     position = game_obj.do_shot()
     shot = game_obj.convert_from_position(position)
-    return '%s, я хожу %s' % (opponent, shot)
+    if game_obj.is_end_game():
+        if game_obj.enemy_ships_count < 1:
+            return 'Ура! победа!'
+        else:
+            return 'Проигрыш :('
+    else:
+        return 'я хожу %s' % shot
 
 
 def _handle_dontunderstand(user_id, message, entities):
@@ -113,7 +122,7 @@ def _handle_dontunderstand(user_id, message, entities):
 def handle_message(user_id, message):
     data = router.extract({'q': message})
     router_response = router.parse(data)
-    logger.info('Router response %s', json.dumps(router_response, indent=2))
+    logger.error('Router response %s', json.dumps(router_response, indent=2))
     if router_response['intent']['confidence'] < 0.7:
         intent_name = 'dontunderstand'
     else:

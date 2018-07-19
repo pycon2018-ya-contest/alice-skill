@@ -76,14 +76,14 @@ def test_shot(game):
 
 
 def test_dead_ship(game_with_field):
-    assert game_with_field.handle_enemy_shot((7, 1)) == 'dead'
+    assert game_with_field.handle_enemy_shot((7, 1)) == 'kill'
 
     assert game_with_field.handle_enemy_shot((1, 5)) == 'hit'
-    assert game_with_field.handle_enemy_shot((2, 5)) == 'dead'
+    assert game_with_field.handle_enemy_shot((2, 5)) == 'kill'
 
     assert game_with_field.handle_enemy_shot((1, 2)) == 'hit'
     assert game_with_field.handle_enemy_shot((2, 2)) == 'hit'
-    assert game_with_field.handle_enemy_shot((3, 2)) == 'dead'
+    assert game_with_field.handle_enemy_shot((3, 2)) == 'kill'
 
 
 def test_repeat(game):

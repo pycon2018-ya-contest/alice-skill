@@ -46,7 +46,7 @@ def test_game_1():
                 gm.EMPTY, gm.EMPTY, gm.EMPTY,
                 gm.EMPTY, gm.SHIP,  gm.SHIP]
 
-    shots = ['а 1', 'а 2', 'б 3', 'в 3', 'а 3']
+    shots = ['а, 1', 'а, 2', 'б, 3', 'в, 3', 'а, 3']
 
     game = gm.Game()
     game.start_new_game(3, field, [2, 1])

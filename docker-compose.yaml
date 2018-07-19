@@ -1,0 +1,23 @@
+version: '2.1'
+
+services:
+  base:
+    build: .
+
+    command: "true" # чтобы этот сервис сразу завершил работу
+
+    volumes:
+      - ./seabattle:/skill/seabattle
+
+  app:
+    extends: base
+
+    command: ""
+
+  tests:
+    extends: base
+
+    command: "py.test -s /skill/tests"
+
+    volumes:
+      - ./tests:/skill/tests

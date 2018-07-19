@@ -4,3 +4,4 @@ models/
 venv/
 mldata/default/
 .idea
+now.json

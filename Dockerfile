@@ -1,8 +1,10 @@
-FROM frizzlywitch/pycon2018_skill:0.13
+FROM frizzlywitch/pycon2018_skill:0.14
 
 WORKDIR /skill/
-CMD PYTHONPATH=$PYTHONPATH:/skill/ FLASK_APP=/skill/seabattle/api.py flask run --host="::"
+ENV PYTHONPATH=$PYTHONPATH:/skill/ FLASK_APP=/skill/seabattle/api.py
+CMD flask run --host="::"
 
 COPY mldata/ mldata/
 COPY config/ config/
+COPY tests/ tests/
 COPY seabattle/ seabattle/

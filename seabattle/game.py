@@ -11,6 +11,7 @@ EMPTY = 0
 SHIP = 1
 HIT = 2
 BLOCKED = 3
+MISS = 4
 
 
 class Game(object):
@@ -145,6 +146,9 @@ class Game(object):
     def is_end_game(self):
         return self.ships_count < 1 or self.enemy_ships_count < 1
 
+    def is_victory(self):
+        return self.enemy_ships_count < 1
+
     def do_shot(self):
         index = random.choice([i for i, v in enumerate(self.enemy_field) if v == EMPTY])
 
@@ -167,7 +171,7 @@ class Game(object):
                 self.enemy_ships_count -= 1
 
         elif message == 'miss':
-            self.enemy_field[index] = EMPTY
+            self.enemy_field[index] = MISS
 
     def calc_index(self, position):
         x, y = position

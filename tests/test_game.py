@@ -44,6 +44,7 @@ def test_helper_functions(game):
     assert game.convert_to_position('k 1') == (10, 1)
     assert game.convert_to_position('k 2') == (10, 2)
     assert game.convert_to_position('k 10') == (10, 10)
+    assert game.convert_to_position('k два') == (10, 2)
 
     assert game.convert_to_position('d пять') == (5, 5)
 

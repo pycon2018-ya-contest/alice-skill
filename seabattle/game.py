@@ -122,7 +122,7 @@ class Game(object):
 
             if self.is_dead_ship(index):
                 self.ships_count -= 1
-                return 'dead'
+                return 'kill'
             else:
                 return 'hit'
         else:

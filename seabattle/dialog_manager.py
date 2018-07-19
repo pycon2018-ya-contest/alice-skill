@@ -114,7 +114,7 @@ def _handle_dontunderstand(user_id, message, entities):
         return ('Пожалуйста инициализируй новую игру и укажи соперника', 'dontunderstand')
     elif last['message_type'] == 'miss':
         shot = game_obj.repeat()
-        return AFTER_SHOT_MESSAGES['miss'] % {'shot': shot}
+        return (AFTER_SHOT_MESSAGES['miss'] % {'shot': shot}, 'miss')
     return (last['message'], 'dontunderstand')
 
 

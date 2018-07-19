@@ -229,4 +229,4 @@ class Game(object):
         return x, y
 
     def convert_from_position(self, position):
-        return '%s%s' % (self.str_letters[position[0] - 1], position[1])
+        return '%s %s' % (self.str_letters[position[0] - 1], position[1])

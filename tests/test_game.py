@@ -57,8 +57,8 @@ def test_helper_functions(game):
     with pytest.raises(ValueError):
         game.convert_to_position('д пятнадцать')
 
-    assert game.convert_from_position((1, 1)) == 'а1'
-    assert game.convert_from_position((6, 5)) == 'е5'
+    assert game.convert_from_position((1, 1)) == 'а 1'
+    assert game.convert_from_position((6, 5)) == 'е 5'
 
 
 def test_shot(game):

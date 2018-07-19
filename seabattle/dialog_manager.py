@@ -73,7 +73,9 @@ def _handle_miss(user_id, message, entities):
         return 'не поняла пожалуйста повтори последний ход'
     response_dict = {'opponent': opponent}
     # if opponent missed do shot
-    if answer == 'miss':
+    if answer == 'dead' and game_obj.is_defeat():
+        return 'проигрыш'
+    elif answer == 'miss':
         position = game_obj.do_shot()
         shot = game_obj.convert_from_position(position)
         response_dict['shot'] = shot
@@ -103,11 +105,8 @@ def _handle_kill(user_id, message, entities):
     game_obj.handle_enemy_reply('kill')
     position = game_obj.do_shot()
     shot = game_obj.convert_from_position(position)
-    if game_obj.is_end_game():
-        if game_obj.enemy_ships_count < 1:
-            return 'Ура! победа!'
-        else:
-            return 'Проигрыш :('
+    if game_obj.is_victory():
+        return 'Ура победа'
     else:
         return 'я хожу %s' % shot
 
@@ -117,6 +116,16 @@ def _handle_dontunderstand(user_id, message, entities):
     if not last_response:
         return 'Пожалуйста инициализируй новую игру и укажи соперника'
     return last_response
+
+
+def _handle_victory(user_id, message, entities):
+    sessions[user_id] = {}
+    return 'я проиграл'
+
+
+def _handle_defeat(user_id, message, entities):
+    sessions[user_id] = {}
+    return 'Ура победа'
 
 
 def handle_message(user_id, message):
@@ -132,4 +141,7 @@ def handle_message(user_id, message):
     session_obj = sessions.get(user_id, {})
     session_obj['last_response'] = response_message
     sessions[user_id] = session_obj
-    return response_message
+    end_session = False
+    if intent_name in ['victory', 'defeat']:
+        end_session = True
+    return (response_message, end_session)

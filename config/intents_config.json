@@ -281,6 +281,36 @@
         "text": "ничего не поняла повтори последний ход",
         "intent": "dontunderstand",
         "entities": []
+      },
+      {
+        "text": "ура победа",
+        "intent": "victory",
+        "entities": []
+      },
+      {
+        "text": "ура победил",
+        "intent": "victory",
+        "entities": []
+      },
+      {
+        "text": "победа",
+        "intent": "victory",
+        "entities": []
+      },
+      {
+        "text": "я проиграл",
+        "intent": "defeat",
+        "entities": []
+      },
+      {
+        "text": "проигрыш",
+        "intent": "defeat",
+        "entities": []
+      },
+      {
+        "text": "поражение",
+        "intent": "defeat",
+        "entities": []
       }
     ]
   }

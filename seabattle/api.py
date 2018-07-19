@@ -29,17 +29,17 @@ def main():
     response = {
         'version': request.json['version'],
         'session': request.json['session'],
-        'response': {
-            'end_session': False
-        }
     }
     json_body = request.json
     user_id = json_body['session']['user_id']
     message = json_body['request']['command'].strip()
     if not message:
         message = json_body['request']['original_utterance']
-    response_text = dm.handle_message(user_id, message)
-    response['response']['text'] = response_text
+    (response_text, end_session) = dm.handle_message(user_id, message)
+    response['response'] = {
+        'text': response_text,
+        'end_session': end_session,
+    }
 
     logger.error('Response: %r', response)
     return json.dumps(response)

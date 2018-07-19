@@ -16,7 +16,7 @@ logger = logging.getLogger(__name__)
 
 
 def bot_handler(bot, update):
-    response_message = dm.handle_message(update.message.chat_id, update.message.text)
+    (response_message, _) = dm.handle_message(update.message.chat_id, update.message.text)
     bot.send_message(chat_id=update.message.chat_id, text=response_message)
 
 

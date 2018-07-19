@@ -18,7 +18,7 @@ sessions = {}
 AFTER_SHOT_MESSAGES = {
     'miss': 'мимо я хожу %(shot)s',
     'hit': 'ранил',
-    'dead': 'убил',
+    'kill': 'убил',
 }
 
 
@@ -36,48 +36,48 @@ def _handle_newgame(user_id, message, entities):
     game_obj = session_obj['game']
     game_obj.start_new_game()
     if not entities:
-        return 'Пожалуйста инициализируй новую игру и укажи соперника'
+        return ('Пожалуйста инициализируй новую игру и укажи соперника', 'dontunderstand')
     opponent = _get_entity(entities, 'opponent_entity')
     session_obj['opponent'] = opponent
     sessions[user_id] = session_obj
-    return 'инициализирована новая игра c ' + opponent
+    return ('инициализирована новая игра c ' + opponent, 'newgame')
 
 
 def _handle_letsstart(user_id, message, entities):
     session_obj = sessions.get(user_id)
     if session_obj is None or 'game' not in session_obj:
-        return 'Необходимо инициализировать новую игру'
+        return ('Необходимо инициализировать новую игру', 'dontunderstand')
     # opponent = session_obj['opponent']
     game_obj = session_obj['game']
     position = game_obj.do_shot()
     shot = game_obj.convert_from_position(position)
-    return 'я хожу %s' % shot
+    return ('я хожу %s' % shot, 'miss')
 
 
 def _handle_miss(user_id, message, entities):
     session_obj = sessions.get(user_id)
     if session_obj is None or 'game' not in session_obj:
-        return 'Необходимо инициализировать новую игру'
+        return ('Необходимо инициализировать новую игру', 'dontunderstand')
     opponent = session_obj['opponent']
     game_obj = session_obj['game']
     # handle miss
     game_obj.handle_enemy_reply('miss')
     # handle shot
     if not entities:
-        return 'не поняла пожалуйста повтори последний ход'
+        return ('не поняла пожалуйста повтори последний ход', 'dontunderstand')
     enemy_shot = _get_entity(entities, 'hit_entity')
     try:
         enemy_position = game_obj.convert_to_position(enemy_shot)
         answer = game_obj.handle_enemy_shot(enemy_position)
     except ValueError:
-        return 'не поняла пожалуйста повтори последний ход'
+        return ('не поняла пожалуйста повтори последний ход', 'dontunderstand')
     response_dict = {'opponent': opponent}
     # if opponent missed do shot
-    if answer == 'dead' and game_obj.is_defeat():
-        return 'проигрыш'
+    if answer == 'kill' and game_obj.is_defeat():
+        return ('проигрыш', 'defeat')
     elif answer == 'miss':
         response_dict['shot'] = game_obj.do_shot()
-    return AFTER_SHOT_MESSAGES[answer] % response_dict
+    return (AFTER_SHOT_MESSAGES[answer] % response_dict, answer)
 
 
 def _handle_hit(user_id, message, entities):
@@ -89,7 +89,7 @@ def _handle_hit(user_id, message, entities):
     # handle hit
     game_obj.handle_enemy_reply('hit')
     shot = game_obj.do_shot()
-    return 'я хожу %s' % shot
+    return ('я хожу %s' % shot, 'miss')
 
 
 def _handle_kill(user_id, message, entities):
@@ -102,26 +102,31 @@ def _handle_kill(user_id, message, entities):
     game_obj.handle_enemy_reply('kill')
     shot = game_obj.do_shot()
     if game_obj.is_victory():
-        return 'Ура победа'
+        return ('Ура победа', 'victory')
     else:
-        return 'я хожу %s' % shot
+        return ('я хожу %s' % shot, 'miss')
 
 
 def _handle_dontunderstand(user_id, message, entities):
-    last_response = sessions.get(user_id, {}).get('last_response')
-    if not last_response:
-        return 'Пожалуйста инициализируй новую игру и укажи соперника'
-    return last_response
+    session_obj = sessions.get(user_id, {})
+    last = session_obj.get('last')
+    game_obj = session_obj.get('game')
+    if not last or not game_obj:
+        return ('Пожалуйста инициализируй новую игру и укажи соперника', 'dontunderstand')
+    elif last['message_type'] == 'miss':
+        shot = game_obj.repeat()
+        return AFTER_SHOT_MESSAGES['miss'] % {'shot': shot}
+    return (last_response, 'dontunderstand')
 
 
 def _handle_victory(user_id, message, entities):
     sessions[user_id] = {}
-    return 'я проиграл'
+    return ('я проиграл', 'defeat')
 
 
 def _handle_defeat(user_id, message, entities):
     sessions[user_id] = {}
-    return 'Ура победа'
+    return ('Ура победа', 'victory')
 
 
 def handle_message(user_id, message):
@@ -133,9 +138,13 @@ def handle_message(user_id, message):
     else:
         intent_name = router_response['intent']['name']
     handler_name = '_handle_' + intent_name
-    response_message = globals()[handler_name](user_id, message, router_response['entities'])
+    entities = router_response['entities']
+    (response_message, message_type) = globals()[handler_name](user_id, message, entities)
     session_obj = sessions.get(user_id, {})
-    session_obj['last_response'] = response_message
+    session_obj['last'] = {
+        'message': response_message,
+        'message_type': message_type,
+    }
     sessions[user_id] = session_obj
     end_session = False
     if intent_name in ['victory', 'defeat']:

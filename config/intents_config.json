@@ -115,6 +115,186 @@
         ]
       },
       {
+        "text": "я хожу the 8",
+        "intent": "miss",
+        "entities": [
+          {
+            "start": 7,
+            "end": 12,
+            "value": "the 8",
+            "entity": "hit_entity"
+          }
+        ]
+      },
+      {
+        "text": "я хожу the 4",
+        "intent": "miss",
+        "entities": [
+          {
+            "start": 7,
+            "end": 12,
+            "value": "the 4",
+            "entity": "hit_entity"
+          }
+        ]
+      },
+      {
+        "text": "я хожу the шесть",
+        "intent": "miss",
+        "entities": [
+          {
+            "start": 7,
+            "end": 16,
+            "value": "the шесть",
+            "entity": "hit_entity"
+          }
+        ]
+      },
+      {
+        "text": "я хожу уже 5",
+        "intent": "miss",
+        "entities": [
+          {
+            "start": 7,
+            "end": 12,
+            "value": "уже 5",
+            "entity": "hit_entity"
+          }
+        ]
+      },
+      {
+        "text": "я хожу уже 10",
+        "intent": "miss",
+        "entities": [
+          {
+            "start": 7,
+            "end": 13,
+            "value": "уже 10",
+            "entity": "hit_entity"
+          }
+        ]
+      },
+      {
+        "text": "я хожу уже четыре",
+        "intent": "miss",
+        "entities": [
+          {
+            "start": 7,
+            "end": 17,
+            "value": "уже четыре",
+            "entity": "hit_entity"
+          }
+        ]
+      },
+      {
+        "text": "я хожу за 9",
+        "intent": "miss",
+        "entities": [
+          {
+            "start": 7,
+            "end": 11,
+            "value": "за 9",
+            "entity": "hit_entity"
+          }
+        ]
+      },
+      {
+        "text": "я хожу за три",
+        "intent": "miss",
+        "entities": [
+          {
+            "start": 7,
+            "end": 13,
+            "value": "за три",
+            "entity": "hit_entity"
+          }
+        ]
+      },
+      {
+        "text": "я хожу за три",
+        "intent": "miss",
+        "entities": [
+          {
+            "start": 7,
+            "end": 13,
+            "value": "за три",
+            "entity": "hit_entity"
+          }
+        ]
+      },
+      {
+        "text": "я хожу 2 10",
+        "intent": "miss",
+        "entities": [
+          {
+            "start": 7,
+            "end": 11,
+            "value": "2 10",
+            "entity": "hit_entity"
+          }
+        ]
+      },
+      {
+        "text": "я хожу 10 10",
+        "intent": "miss",
+        "entities": [
+          {
+            "start": 7,
+            "end": 12,
+            "value": "10 10",
+            "entity": "hit_entity"
+          }
+        ]
+      },
+      {
+        "text": "я хожу 10 5",
+        "intent": "miss",
+        "entities": [
+          {
+            "start": 7,
+            "end": 11,
+            "value": "10 5",
+            "entity": "hit_entity"
+          }
+        ]
+      },
+      {
+        "text": "я хожу 7 9",
+        "intent": "miss",
+        "entities": [
+          {
+            "start": 7,
+            "end": 10,
+            "value": "7 9",
+            "entity": "hit_entity"
+          }
+        ]
+      },
+      {
+        "text": "я хожу два десять",
+        "intent": "miss",
+        "entities": [
+          {
+            "start": 7,
+            "end": 17,
+            "value": "два десять",
+            "entity": "hit_entity"
+          }
+        ]
+      },
+      {
+        "text": "я хожу семь четыре",
+        "intent": "miss",
+        "entities": [
+          {
+            "start": 7,
+            "end": 18,
+            "value": "семь четыре",
+            "entity": "hit_entity"
+          }
+        ]
+      },
+      {
         "text": "мой ход г5",
         "intent": "miss",
         "entities": [

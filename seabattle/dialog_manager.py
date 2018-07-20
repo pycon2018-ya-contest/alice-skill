@@ -25,7 +25,7 @@ MESSAGE_TEMPLATES = {
     'dontunderstand': 'Не поняла. Пожалуйста, повтори последний ход'
 }
 TTS_TEMPLATES = {
-    'miss': 'Мимо - - - Я хожу %(tts_shot)s',
+    'miss': 'Мимо - - - - - Я хожу %(tts_shot)s',
     'shot': 'Я хожу - %(tts_shot)s',
 }
 DMResponse = collections.namedtuple('DMResponse', ['key', 'text', 'tts', 'end_session'])
@@ -39,7 +39,7 @@ def _get_entity(entities, entity_type):
 
 
 def _shot_to_tts(shot):
-    return shot.replace(', ', ' - - - ')
+    return shot.replace(', ', ' - - - - - -')
 
 
 class DialogManager(object):

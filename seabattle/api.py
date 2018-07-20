@@ -41,11 +41,13 @@ def main():
     if not message:
         message = json_body['request']['original_utterance']
 
-    (response_text, end_session) = dm_obj.handle_message(message)
+    dmresponse = dm_obj.handle_message(message)
     response['response'] = {
-        'text': response_text,
-        'end_session': end_session,
+        'text': dmresponse.text,
+        'end_session': dmresponse.end_session,
     }
+    if dmresponse.tts is not None:
+        response['response']['tts'] = dmresponse.tts
 
     logger.error('Response: %r', response)
     return json.dumps(response)

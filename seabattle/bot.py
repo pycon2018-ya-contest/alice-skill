@@ -21,8 +21,8 @@ logger = logging.getLogger(__name__)
 def bot_handler(bot, update):
     session_obj = session.get(update.message.chat_id)
     dm_obj = dm.DialogManager(session_obj)
-    (response_message, _) = dm_obj.handle_message(update.message.text)
-    bot.send_message(chat_id=update.message.chat_id, text=response_message)
+    dmresponse = dm_obj.handle_message(update.message.text)
+    bot.send_message(chat_id=update.message.chat_id, text=dmresponse.text)
 
 
 def error_handler(bot, update, error):

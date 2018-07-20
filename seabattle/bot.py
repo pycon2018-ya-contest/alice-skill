@@ -1,11 +1,15 @@
 # coding: utf-8
 
+from __future__ import unicode_literals
+
 import logging
 import os
 
 from telegram import ext as telegram_ext
+from rasa_nlu.data_router import DataRouter
 
 from seabattle import dialog_manager as dm
+from seabattle import session
 
 
 logging.basicConfig(
@@ -13,10 +17,13 @@ logging.basicConfig(
     level=logging.DEBUG
 )
 logger = logging.getLogger(__name__)
+router = DataRouter('mldata/')
 
 
 def bot_handler(bot, update):
-    (response_message, _) = dm.handle_message(update.message.chat_id, update.message.text)
+    session_obj = session.get(update.message.chat_id)
+    dm_obj = dm.DialogManager(session_obj, router)
+    (response_message, _) = dm_obj.handle_message(update.message.text)
     bot.send_message(chat_id=update.message.chat_id, text=response_message)
 
 

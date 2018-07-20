@@ -14,7 +14,7 @@ BLOCKED = 3
 MISS = 4
 
 
-class Game(object):
+class BaseGame(object):
     position_patterns = [re.compile('^([a-zа-я]+)(\d+)$', re.UNICODE),  # a1
                          re.compile('^([a-zа-я]+)\s+(\w+)$', re.UNICODE),  # a 1; a один
                          re.compile('^(\w+)\s+(\w+)$', re.UNICODE),  # a 1; a один; 7 10
@@ -68,14 +68,7 @@ class Game(object):
         self.last_enemy_shot_position = None
 
     def generate_field(self):
-        self.field = [0] * self.size ** 2
-
-        for length in self.ships:
-            self.place_ship(length)
-
-        for i in range(0, len(self.field)):
-            if self.field[i] == BLOCKED:
-                self.field[i] = EMPTY
+        raise NotImplementedError()
 
     def print_field(self):
         mapping = [' ', '0', 'x']
@@ -84,43 +77,6 @@ class Game(object):
         for y in range(self.size):
             print '|%s|' % ''.join(mapping[x] for x in self.field[y * self.size: y * self.size + self.size])
         print '---'
-
-    def place_ship(self, length):
-        def _try_to_place():
-            x = random.randint(1, self.size)
-            y = random.randint(1, self.size)
-            direction = random.choice([1, self.size])
-
-            index = self.calc_index((x, y))
-            values = self.field[index:None if direction != 1 else index + self.size - index % self.size:direction][:length]
-
-            if len(values) < length or any(values):
-                return False
-
-            for i in range(0, length):
-                current_index = index + direction * i
-
-                for j in [0, 1, -1]:
-                    if (current_index % self.size in (0, self.size - 1)
-                            and (current_index + j) % self.size in (0, self.size - 1)):
-                        continue
-
-                    for k in [0, self.size, -self.size]:
-                        neighbour_index = current_index + k + j
-
-                        if (neighbour_index < 0
-                                or neighbour_index >= len(self.field)
-                                or self.field[neighbour_index] == SHIP):
-                            continue
-
-                        self.field[neighbour_index] = BLOCKED
-
-                self.field[current_index] = SHIP
-
-            return True
-
-        while not _try_to_place():
-            pass
 
     def handle_enemy_shot(self, position):
         index = self.calc_index(position)
@@ -169,10 +125,7 @@ class Game(object):
         return self.ships_count < 1
 
     def do_shot(self):
-        index = random.choice([i for i, v in enumerate(self.enemy_field) if v == EMPTY])
-
-        self.last_shot_position = self.calc_position(index)
-        return self.convert_from_position(self.last_shot_position)
+        raise NotImplementedError()
 
     def repeat(self):
         return self.convert_from_position(self.last_shot_position, numbers=True)
@@ -270,3 +223,65 @@ class Game(object):
         y = position[1]
 
         return '%s, %s' % (x, y)
+
+
+class Game(BaseGame):
+    """Реализация игры с ипользованием обычного random"""
+
+    def generate_field(self):
+        """Метод генерации поля"""
+        self.field = [0] * self.size ** 2
+
+        for length in self.ships:
+            self.place_ship(length)
+
+        for i in range(0, len(self.field)):
+            if self.field[i] == BLOCKED:
+                self.field[i] = EMPTY
+
+    def place_ship(self, length):
+        def _try_to_place():
+            x = random.randint(1, self.size)
+            y = random.randint(1, self.size)
+            direction = random.choice([1, self.size])
+
+            index = self.calc_index((x, y))
+            values = self.field[index:None if direction != 1 else index + self.size - index % self.size:direction][:length]
+
+            if len(values) < length or any(values):
+                return False
+
+            for i in range(0, length):
+                current_index = index + direction * i
+
+                for j in [0, 1, -1]:
+                    if (current_index % self.size in (0, self.size - 1)
+                            and (current_index + j) % self.size in (0, self.size - 1)):
+                        continue
+
+                    for k in [0, self.size, -self.size]:
+                        neighbour_index = current_index + k + j
+
+                        if (neighbour_index < 0
+                                or neighbour_index >= len(self.field)
+                                or self.field[neighbour_index] == SHIP):
+                            continue
+
+                        self.field[neighbour_index] = BLOCKED
+
+                self.field[current_index] = SHIP
+
+            return True
+
+        while not _try_to_place():
+            pass
+
+    def do_shot(self):
+        """Метод выбора координаты выстрела.
+
+        ЕГО И НУЖНО ЗАМЕНИТЬ НА СВОЙ АЛГОРИТМ
+        """
+        index = random.choice([i for i, v in enumerate(self.enemy_field) if v == EMPTY])
+
+        self.last_shot_position = self.calc_position(index)
+        return self.convert_from_position(self.last_shot_position)

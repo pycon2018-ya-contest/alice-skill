@@ -5,3 +5,5 @@ venv/
 mldata/default/
 .idea
 now.json
+fabfile.py
+.env

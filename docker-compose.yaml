@@ -34,3 +34,11 @@ services:
     extends: base
 
     command: "python -m rasa_nlu.train --config config/nlu_config.yml --data config/intents_config.json --path mldata/"
+
+  bot:
+    extends: base
+
+    command: "python seabattle/bot.py"
+
+    environment:
+      - TELEGRAM_TOKEN

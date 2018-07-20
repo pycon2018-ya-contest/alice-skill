@@ -1,4 +1,6 @@
 rasa_nlu[spacy]==0.12.0
+coloredlogs==10.0
+tensorflow==1.9.0
 gspread==2.0.0
 oauth2client==4.1.2
 duckling==1.7.3
@@ -7,5 +9,4 @@ python-telegram-bot==9.0.0
 transliterate==1.10.1
 Flask==1.0.2
 pytest==3.6.3
-coloredlogs==10.0
-tensorflow==1.9.0
+mock==2.0.0

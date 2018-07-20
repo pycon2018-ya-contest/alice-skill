@@ -1,4 +1,4 @@
-FROM frizzlywitch/pycon2018_skill:0.15
+FROM frizzlywitch/pycon2018_skill:0.16
 
 WORKDIR /skill/
 ENV PYTHONPATH=$PYTHONPATH:/skill/ FLASK_APP=/skill/seabattle/api.py

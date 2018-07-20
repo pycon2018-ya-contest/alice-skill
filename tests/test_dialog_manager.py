@@ -2,8 +2,6 @@
 
 from __future__ import unicode_literals
 
-from rasa_nlu.data_router import DataRouter
-
 from seabattle import dialog_manager as dm, game as gm
 from seabattle import session
 
@@ -12,11 +10,10 @@ import mock
 
 user_id = 'user1'
 session_obj = session.get(user_id)
-router = DataRouter('mldata/')
 
 
 def say(message):
-    return dm.DialogManager(session_obj, router).handle_message(message)[0]
+    return dm.DialogManager(session_obj).handle_message(message)[0]
 
 
 def newgame(opponent):

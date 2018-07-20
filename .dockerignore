@@ -7,3 +7,4 @@
 *.swp
 venv
 now.json
+tests/__pycache__

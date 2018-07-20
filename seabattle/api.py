@@ -7,14 +7,12 @@ import logging
 import sys
 
 from flask import Flask, request
-from rasa_nlu.data_router import DataRouter
 
 from seabattle import dialog_manager as dm
 from seabattle import session
 
 
 app = Flask(__name__)
-router = DataRouter('mldata/')
 
 handler = logging.StreamHandler(stream=sys.stderr)
 handler.setLevel(logging.INFO)
@@ -37,7 +35,7 @@ def main():
 
     user_id = json_body['session']['user_id']
     session_obj = session.get(user_id)
-    dm_obj = dm.DialogManager(session_obj, router)
+    dm_obj = dm.DialogManager(session_obj)
 
     message = json_body['request']['command'].strip()
     if not message:

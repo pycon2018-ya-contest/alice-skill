@@ -5,10 +5,13 @@ from __future__ import unicode_literals
 import json
 import logging
 
+from rasa_nlu.data_router import DataRouter
+
 from seabattle import game
 
 
 logger = logging.getLogger(__name__)
+router = DataRouter('mldata/')
 MESSAGE_TEMPLATES = {
     'miss': 'Мимо. Я хожу %(shot)s',
     'hit': 'Ранил',
@@ -30,8 +33,7 @@ def _get_entity(entities, entity_type):
 
 
 class DialogManager(object):
-    def __init__(self, session_obj, router):
-        self.router = router
+    def __init__(self, session_obj):
         self.session = session_obj
         self.game = session_obj['game']
         self.opponent = session_obj['opponent']
@@ -116,8 +118,8 @@ class DialogManager(object):
         return (MESSAGE_TEMPLATES['victory'], 'victory')
 
     def handle_message(self, message):
-        data = self.router.extract({'q': message})
-        router_response = self.router.parse(data)
+        data = router.extract({'q': message})
+        router_response = router.parse(data)
         logger.error('Router response %s', json.dumps(router_response, indent=2))
 
         if router_response['intent']['confidence'] < 0.75:

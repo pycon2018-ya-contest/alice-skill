@@ -1,18 +1,19 @@
 # coding: utf-8
+
 from __future__ import unicode_literals
 
 from seabattle import dialog_manager as dm, game as gm
+from seabattle import session
 
-
-import pytest
 import mock
 
 
 user_id = 'user1'
+session_obj = session.get(user_id)
 
 
 def say(message):
-    return dm.handle_message(user_id, message)[0]
+    return dm.DialogManager(session_obj).handle_message(message)[0]
 
 
 def newgame(opponent):
@@ -56,7 +57,7 @@ def test_game_1():
     game.start_new_game(3, field, [2, 1])
     game.do_shot = mock.Mock(side_effect=shots)
 
-    dm.sessions[user_id]['game'] = game
+    session_obj['game'] = game
 
     assert say('начинай') == shot(shots[0])
     assert say('мимо. я хожу б 2') == miss(shots[1])

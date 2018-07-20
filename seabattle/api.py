@@ -9,6 +9,7 @@ import sys
 from flask import Flask, request
 
 from seabattle import dialog_manager as dm
+from seabattle import session
 
 
 app = Flask(__name__)
@@ -31,11 +32,16 @@ def main():
         'session': request.json['session'],
     }
     json_body = request.json
+
     user_id = json_body['session']['user_id']
+    session_obj = session.get(user_id)
+    dm_obj = dm.DialogManager(session_obj)
+
     message = json_body['request']['command'].strip()
     if not message:
         message = json_body['request']['original_utterance']
-    (response_text, end_session) = dm.handle_message(user_id, message)
+
+    (response_text, end_session) = dm_obj.handle_message(message)
     response['response'] = {
         'text': response_text,
         'end_session': end_session,

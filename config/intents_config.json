@@ -331,6 +331,18 @@
         ]
       },
       {
+        "text": "дима я хожу уже 4",
+        "intent": "miss",
+        "entities": [
+          {
+            "start": 12,
+            "end": 17,
+            "value": "уже 4",
+            "entity": "hit_entity"
+          }
+        ]
+      },
+      {
         "text": "мимо я хожу з 3",
         "intent": "miss",
         "entities": [
@@ -424,6 +436,16 @@
       },
       {
         "text": "убил",
+        "intent": "kill",
+        "entities": []
+      },
+      {
+        "text": "побил",
+        "intent": "kill",
+        "entities": []
+      },
+      {
+        "text": "побила",
         "intent": "kill",
         "entities": []
       },

@@ -13,7 +13,7 @@ session_obj = session.get(user_id)
 
 
 def say(message):
-    return dm.DialogManager(session_obj).handle_message(message)[0]
+    return dm.DialogManager(session_obj).handle_message(message).text
 
 
 def newgame(opponent):

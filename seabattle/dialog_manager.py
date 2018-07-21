@@ -80,7 +80,7 @@ class DialogManager(object):
     def _handle_newgame(self, message, entities):
         self.game = game.Game()
         self.session['game'] = self.game
-        self.game.start_new_game(numbers=True)
+        self.game.start_new_game(numbers=True, size=5, ships=[2, 2, 1, 1])
         if entities:
             self.opponent = _get_entity(entities, 'opponent_entity')
         else:

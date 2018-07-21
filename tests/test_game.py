@@ -93,7 +93,10 @@ def test_repeat(game):
 
 def test_handle_shot(game_with_field):
     assert game_with_field.handle_enemy_shot((4, 7)) == 'hit'
-    assert game_with_field.handle_enemy_shot((4, 7)) == 'miss'
+    assert game_with_field.handle_enemy_shot((4, 7)) == 'hit'
+
+    assert game_with_field.handle_enemy_shot((7, 1)) == 'kill'
+    assert game_with_field.handle_enemy_shot((7, 1)) == 'kill'
 
     assert game_with_field.handle_enemy_shot((4, 2)) == 'miss'
 

@@ -81,7 +81,7 @@ class BaseGame(object):
     def handle_enemy_shot(self, position):
         index = self.calc_index(position)
 
-        if self.field[index] == SHIP:
+        if self.field[index] in (SHIP, HIT):
             self.field[index] = HIT
 
             if self.is_dead_ship(index):

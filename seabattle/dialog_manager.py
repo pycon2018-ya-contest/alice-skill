@@ -16,7 +16,7 @@ router = DataRouter('mldata/')
 MESSAGE_TEMPLATES = {
     'miss': 'Мимо. Я хожу %(shot)s',
     'hit': 'Ты ранила',
-    'kill': 'Корабль потоплен',
+    'kill': 'Корабль утонул',
     'newgame': 'Инициализирована новая игра c %(opponent)s',
     'shot': 'Я хожу %(shot)s',
     'defeat': 'Я проиграл',

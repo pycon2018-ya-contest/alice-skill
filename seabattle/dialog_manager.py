@@ -19,19 +19,15 @@ MESSAGE_TEMPLATES = {
     'kill': 'Корабль утонул',
     'newgame': 'Инициализирована новая игра c %(opponent)s',
     'shot': 'Я хожу %(shot)s',
-    'defeat': 'Я проиграл',
+    'defeat': 'Я проиграла',
     'victory': 'Ура, победа!',
     'need_init': 'Пожалуйста, инициализируй новую игру и укажи соперника',
     'dontunderstand': 'Не поняла. Повтори последний ход'
 }
 TTS_TEMPLATES = {
     'newgame': 'Инициализирована новая игра с - - %(opponent)s',
-    'miss': 'Мимо - - - Я хожу - %(tts_shot)s',
+    'miss': 'Мимо - Я хожу - %(tts_shot)s',
     'shot': 'Я хожу - %(tts_shot)s',
-}
-INTENT_TO_ENTITIES_MAPPING = {
-    'newgame': set(['opponent_entity']),
-    'miss': set(['hit_entity']),
 }
 DMResponse = collections.namedtuple('DMResponse', ['key', 'text', 'tts', 'end_session'])
 
@@ -162,24 +158,22 @@ class DialogManager(object):
         self.session['game'] = self.game = None
         return self._get_dmresponse_by_key('victory', True)
 
+    def _update_session(self, dmresponse):
+        self.session['last'] = self.last = dmresponse
+
     def handle_message(self, message):
         data = router.extract({'q': message})
         router_response = router.parse(data)
         logger.error('Router response %s', json.dumps(router_response, indent=2))
 
-        dmresponse = None
         if router_response['intent']['confidence'] < 0.8:
             dmresponse = self._get_dmresponse_by_key('dontunderstand')
-        else:
-            intent_name = router_response['intent']['name']
+            self._update_session(dmresponse)
+            return dmresponse
 
+        intent_name = router_response['intent']['name']
         entities = router_response['entities']
-        ent_names = set(e['entity'] for e in entities)
-        if not (INTENT_TO_ENTITIES_MAPPING[intent_name] & ent_names):
-            dmresponse = self._get_dmresponse_by_key('dontunderstand')
-
-        if dmresponse is None:
-            handler_method = getattr(self, '_handle_' + intent_name)
-            dmresponse = handler_method(message, entities)
-        self.session['last'] = self.last = dmresponse
+        handler_method = getattr(self, '_handle_' + intent_name)
+        dmresponse = handler_method(message, entities)
+        self._update_session(dmresponse)
         return dmresponse

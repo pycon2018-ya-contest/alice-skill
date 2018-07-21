@@ -499,6 +499,16 @@
         "entities": []
       },
       {
+        "text": "я не поняла",
+        "intent": "dontunderstand",
+        "entities": []
+      },
+      {
+        "text": " я не понял",
+        "intent": "dontunderstand",
+        "entities": []
+      },
+      {
         "text": "не понял",
         "intent": "dontunderstand",
         "entities": []
@@ -530,6 +540,11 @@
       },
       {
         "text": "я проиграл",
+        "intent": "defeat",
+        "entities": []
+      },
+      {
+        "text": "я проиграла",
         "intent": "defeat",
         "entities": []
       },

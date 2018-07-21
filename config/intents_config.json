@@ -4,6 +4,11 @@
     "entity_synonyms": [],
     "common_examples": [
       {
+        "text": "новая игра",
+        "intent": "newgame",
+        "entities": []
+      },
+      {
         "text": "новая игра соперник алиса",
         "intent": "newgame",
         "entities": [

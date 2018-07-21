@@ -49,10 +49,14 @@ class DialogManager(object):
         self.opponent = session_obj['opponent']
         self.last = session_obj['last']
 
-    def _get_dmresponse(self, key, text, tts=None, end_session=False):
+    def _get_dmresponse(self, key, text, tts=None, end_session=False, with_opponent=False):
+        if with_opponent:
+            text = '%s, %s' % (self.opponent, text)
+            if tts:
+                tts = '%s - - - - - %s' % (self.opponent, tts)
         return DMResponse(key, text, tts, end_session)
 
-    def _get_shot_miss_dmresponse(self, key, shot):
+    def _get_shot_miss_dmresponse(self, key, shot, with_opponent=False):
         response_dict = {
             'shot': shot,
             'tts_shot': _shot_to_tts(shot),
@@ -61,19 +65,26 @@ class DialogManager(object):
             key,
             MESSAGE_TEMPLATES[key] % response_dict,
             TTS_TEMPLATES[key] % response_dict,
+            with_opponent=with_opponent
         )
 
-    def _get_dmresponse_by_key(self, key, end_session=False):
-        return self._get_dmresponse(key, MESSAGE_TEMPLATES[key], end_session=end_session)
+    def _get_dmresponse_by_key(self, key, end_session=False, with_opponent=False):
+        return self._get_dmresponse(
+            key,
+            MESSAGE_TEMPLATES[key],
+            end_session=end_session,
+            with_opponent=with_opponent
+        )
 
     def _handle_newgame(self, message, entities):
         self.game = game.Game()
         self.session['game'] = self.game
         self.game.start_new_game(numbers=True)
-        if not entities:
-            return self._get_dmresponse_by_key('need_init')
+        if entities:
+            self.opponent = _get_entity(entities, 'opponent_entity')
+        else:
+            self.opponent = 'Алиса'
 
-        self.opponent = _get_entity(entities, 'opponent_entity')
         self.session['opponent'] = self.opponent
         response_dict = {'opponent': self.opponent}
         return self._get_dmresponse(
@@ -133,8 +144,8 @@ class DialogManager(object):
 
         if self.last.key in ['miss', 'shot']:
             shot = self.game.repeat()
-            return self._get_shot_miss_dmresponse(self.last.key, shot)
-        return self._get_dmresponse(self.last.key, self.last.text)
+            return self._get_shot_miss_dmresponse(self.last.key, shot, with_opponent=True)
+        return self._get_dmresponse(self.last.key, self.last.text, with_opponent=True)
 
     def _handle_victory(self, message, entities):
         self.session['game'] = self.game = None

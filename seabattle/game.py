@@ -18,7 +18,6 @@ class BaseGame(object):
     position_patterns = [re.compile('^([a-zа-я]+)(\d+)$', re.UNICODE),  # a1
                          re.compile('^([a-zа-я]+)\s+(\w+)$', re.UNICODE),  # a 1; a один
                          re.compile('^(\w+)\s+(\w+)$', re.UNICODE),  # a 1; a один; 7 10
-                         re.compile('^(\w+)$', re.UNICODE)  # 1; один
                          ]
 
     str_letters = ['а', 'б', 'в', 'г', 'д', 'е', 'ж', 'з', 'и', 'к']
@@ -173,9 +172,6 @@ class BaseGame(object):
             raise ValueError('Can\'t parse entire position: %s' % position)
 
         bits = match.groups()
-
-        if len(bits) == 1:
-            bits = ('а', bits[0])
 
         def _try_letter(bit):
             # проверяем особые случаи неправильного распознования STT

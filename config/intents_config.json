@@ -336,6 +336,30 @@
         ]
       },
       {
+        "text": "мимо я хожу трень трень",
+        "intent": "miss",
+        "entities": [
+          {
+            "start": 12,
+            "end": 23,
+            "value": "трень трень",
+            "entity": "hit_entity"
+          }
+        ]
+      },
+      {
+        "text": "я хожу трень трень",
+        "intent": "miss",
+        "entities": [
+          {
+            "start": 7,
+            "end": 18,
+            "value": "трень трень",
+            "entity": "hit_entity"
+          }
+        ]
+      },
+      {
         "text": "дима я хожу уже 4",
         "intent": "miss",
         "entities": [
@@ -475,6 +499,16 @@
         "entities": []
       },
       {
+        "text": "я не поняла",
+        "intent": "dontunderstand",
+        "entities": []
+      },
+      {
+        "text": " я не понял",
+        "intent": "dontunderstand",
+        "entities": []
+      },
+      {
         "text": "не понял",
         "intent": "dontunderstand",
         "entities": []
@@ -506,6 +540,11 @@
       },
       {
         "text": "я проиграл",
+        "intent": "defeat",
+        "entities": []
+      },
+      {
+        "text": "я проиграла",
         "intent": "defeat",
         "entities": []
       },

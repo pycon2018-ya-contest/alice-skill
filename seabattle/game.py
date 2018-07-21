@@ -24,9 +24,12 @@ class BaseGame(object):
     str_letters = ['а', 'б', 'в', 'г', 'д', 'е', 'ж', 'з', 'и', 'к']
     str_numbers = ['один', 'два', 'три', 'четыре', 'пять', 'шесть', 'семь', 'восемь', 'девять', 'десять']
 
-    letters_mapping = {'the': 'з',
-                       'за': 'з',
-                       'уже': 'ж'}
+    letters_mapping = {
+        'the': 'з',
+        'за': 'з',
+        'уже': 'ж',
+        'трень': '3',
+    }
 
     default_ships = [4, 3, 3, 2, 2, 2, 1, 1, 1, 1]
 
@@ -187,6 +190,9 @@ class BaseGame(object):
                 raise
 
         def _try_number(bit):
+            # проверяем особые случаи неправильного распознования STT
+            bit = self.letters_mapping.get(bit, bit)
+
             if bit.isdigit():
                 return int(bit)
             else:

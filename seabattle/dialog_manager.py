@@ -19,20 +19,21 @@ MESSAGE_TEMPLATES = {
     'kill': 'Корабль утонул',
     'newgame': 'Инициализирована новая игра c %(opponent)s',
     'shot': 'Я хожу %(shot)s',
-    'defeat': 'Я проиграл',
+    'defeat': 'Я проиграла',
     'victory': 'Ура, победа!',
     'need_init': 'Пожалуйста, инициализируй новую игру и укажи соперника',
     'dontunderstand': 'Не поняла. Повтори последний ход'
 }
 TTS_TEMPLATES = {
     'newgame': 'Инициализирована новая игра с - - %(opponent)s',
-    'miss': 'Мимо - - - Я хожу - %(tts_shot)s',
+    'miss': 'Мимо - Я хожу - %(tts_shot)s',
     'shot': 'Я хожу - %(tts_shot)s',
 }
 DMResponse = collections.namedtuple('DMResponse', ['key', 'text', 'tts', 'end_session'])
 
 
 def _get_entity(entities, entity_type):
+
     try:
         return next(e['value'] for e in entities if e['entity'] == entity_type)
     except StopIteration:
@@ -157,18 +158,22 @@ class DialogManager(object):
         self.session['game'] = self.game = None
         return self._get_dmresponse_by_key('victory', True)
 
+    def _update_session(self, dmresponse):
+        self.session['last'] = self.last = dmresponse
+
     def handle_message(self, message):
         data = router.extract({'q': message})
         router_response = router.parse(data)
         logger.error('Router response %s', json.dumps(router_response, indent=2))
 
         if router_response['intent']['confidence'] < 0.8:
-            intent_name = 'dontunderstand'
-        else:
-            intent_name = router_response['intent']['name']
-        entities = router_response['entities']
+            dmresponse = self._get_dmresponse_by_key('dontunderstand')
+            self._update_session(dmresponse)
+            return dmresponse
 
+        intent_name = router_response['intent']['name']
+        entities = router_response['entities']
         handler_method = getattr(self, '_handle_' + intent_name)
         dmresponse = handler_method(message, entities)
-        self.session['last'] = self.last = dmresponse
+        self._update_session(dmresponse)
         return dmresponse

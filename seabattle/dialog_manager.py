@@ -29,10 +29,15 @@ TTS_TEMPLATES = {
     'miss': 'Мимо - - - Я хожу - %(tts_shot)s',
     'shot': 'Я хожу - %(tts_shot)s',
 }
+INTENT_TO_ENTITIES_MAPPING = {
+    'newgame': set(['opponent_entity']),
+    'miss': set(['hit_entity']),
+}
 DMResponse = collections.namedtuple('DMResponse', ['key', 'text', 'tts', 'end_session'])
 
 
 def _get_entity(entities, entity_type):
+
     try:
         return next(e['value'] for e in entities if e['entity'] == entity_type)
     except StopIteration:
@@ -162,13 +167,19 @@ class DialogManager(object):
         router_response = router.parse(data)
         logger.error('Router response %s', json.dumps(router_response, indent=2))
 
+        dmresponse = None
         if router_response['intent']['confidence'] < 0.8:
-            intent_name = 'dontunderstand'
+            dmresponse = self._get_dmresponse_by_key('dontunderstand')
         else:
             intent_name = router_response['intent']['name']
-        entities = router_response['entities']
 
-        handler_method = getattr(self, '_handle_' + intent_name)
-        dmresponse = handler_method(message, entities)
+        entities = router_response['entities']
+        ent_names = set(e['entity'] for e in entities)
+        if not (INTENT_TO_ENTITIES_MAPPING[intent_name] & ent_names):
+            dmresponse = self._get_dmresponse_by_key('dontunderstand')
+
+        if dmresponse is None:
+            handler_method = getattr(self, '_handle_' + intent_name)
+            dmresponse = handler_method(message, entities)
         self.session['last'] = self.last = dmresponse
         return dmresponse

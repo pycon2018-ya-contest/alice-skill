@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 router = DataRouter('mldata/')
 MESSAGE_TEMPLATES = {
     'miss': 'Мимо. Я хожу %(shot)s',
-    'hit': 'Ты ранила',
+    'hit': 'Ты попала',
     'kill': 'Корабль утонул',
     'newgame': 'Инициализирована новая игра c %(opponent)s',
     'shot': 'Я хожу %(shot)s',
@@ -25,8 +25,8 @@ MESSAGE_TEMPLATES = {
     'dontunderstand': 'Не поняла. Повтори последний ход'
 }
 TTS_TEMPLATES = {
-    'newgame': 'Инициализирована новая игра c - - - - %(opponent)s',
-    'miss': 'Мимо - - - - - Я хожу %(tts_shot)s',
+    'newgame': 'Инициализирована новая игра с - - %(opponent)s',
+    'miss': 'Мимо - - - Я хожу - %(tts_shot)s',
     'shot': 'Я хожу - %(tts_shot)s',
 }
 DMResponse = collections.namedtuple('DMResponse', ['key', 'text', 'tts', 'end_session'])
@@ -40,7 +40,7 @@ def _get_entity(entities, entity_type):
 
 
 def _shot_to_tts(shot):
-    return shot.replace(', ', ' - - - - - - ')
+    return shot.replace(', ', ' - - - - ')
 
 
 class DialogManager(object):
@@ -51,10 +51,10 @@ class DialogManager(object):
         self.last = session_obj['last']
 
     def _get_dmresponse(self, key, text, tts=None, end_session=False, with_opponent=False):
-        if with_opponent:
+        if with_opponent and not text.lower().startswith(self.opponent.lower()):
             text = '%s, %s' % (self.opponent, text)
             if tts:
-                tts = '%s - - - - - %s' % (self.opponent, tts)
+                tts = '%s - - %s' % (self.opponent, tts)
         return DMResponse(key, text, tts, end_session)
 
     def _get_shot_miss_dmresponse(self, key, shot, with_opponent=False):

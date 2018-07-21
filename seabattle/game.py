@@ -132,6 +132,9 @@ class BaseGame(object):
     def repeat(self):
         return self.convert_from_position(self.last_shot_position, numbers=True)
 
+    def reset_last_shot(self):
+        self.last_shot_position = None
+
     def handle_enemy_reply(self, message):
         if self.last_shot_position is None:
             return

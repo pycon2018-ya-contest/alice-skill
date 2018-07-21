@@ -65,7 +65,7 @@ def test_game_1():
     assert say('мимо. я хожу в 2') == hit()
     assert say('я хожу в 3') == kill()
     assert say('я хожу б 3') == miss(shots[2])
-    assert say('я не понял') == miss('2, 3')
+    assert say('я не понял') == 'яндекс, ' + miss('2, 3')
     assert say('ранил') == shot(shots[3])
     assert say('убил') == shot(shots[4])
     assert say('мимо. я хожу а 2') == kill()

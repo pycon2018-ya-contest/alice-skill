@@ -420,7 +420,7 @@
         ]
       },
       {
-        "text": "ранил",
+        "text": "ранила",
         "intent": "hit",
         "entities": []
       },
@@ -435,7 +435,7 @@
         "entities": []
       },
       {
-        "text": "ранила",
+        "text": "Ты ранила",
         "intent": "hit",
         "entities": []
       },
@@ -485,7 +485,7 @@
         "entities": []
       },
       {
-        "text": "ничего не поняла повтори последний ход",
+        "text": "не поняла повтори последний ход",
         "intent": "dontunderstand",
         "entities": []
       },

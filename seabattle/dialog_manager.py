@@ -15,16 +15,17 @@ logger = logging.getLogger(__name__)
 router = DataRouter('mldata/')
 MESSAGE_TEMPLATES = {
     'miss': 'Мимо. Я хожу %(shot)s',
-    'hit': 'Ранил',
-    'kill': 'Убил',
+    'hit': 'Ты ранила',
+    'kill': 'Корабль утонул',
     'newgame': 'Инициализирована новая игра c %(opponent)s',
     'shot': 'Я хожу %(shot)s',
     'defeat': 'Я проиграл',
     'victory': 'Ура, победа!',
     'need_init': 'Пожалуйста, инициализируй новую игру и укажи соперника',
-    'dontunderstand': 'Не поняла. Пожалуйста, повтори последний ход'
+    'dontunderstand': 'Не поняла. Повтори последний ход'
 }
 TTS_TEMPLATES = {
+    'newgame': 'Инициализирована новая игра c - - - - %(opponent)s',
     'miss': 'Мимо - - - - - Я хожу %(tts_shot)s',
     'shot': 'Я хожу - %(tts_shot)s',
 }
@@ -39,7 +40,7 @@ def _get_entity(entities, entity_type):
 
 
 def _shot_to_tts(shot):
-    return shot.replace(', ', ' - - - - - -')
+    return shot.replace(', ', ' - - - - - - ')
 
 
 class DialogManager(object):
@@ -90,13 +91,14 @@ class DialogManager(object):
         return self._get_dmresponse(
             'newgame',
             MESSAGE_TEMPLATES['newgame'] % response_dict,
+            TTS_TEMPLATES['newgame'] % response_dict,
         )
 
     def _handle_letsstart(self, message, entities):
         if self.game is None:
             return self._get_dmresponse_by_key('need_init')
         shot = self.game.do_shot()
-        return self._get_shot_miss_dmresponse('shot', shot)
+        return self._get_shot_miss_dmresponse('shot', shot, with_opponent=True)
 
     def _handle_miss(self, message, entities):
         if self.game is None:
@@ -160,7 +162,7 @@ class DialogManager(object):
         router_response = router.parse(data)
         logger.error('Router response %s', json.dumps(router_response, indent=2))
 
-        if router_response['intent']['confidence'] < 0.75:
+        if router_response['intent']['confidence'] < 0.8:
             intent_name = 'dontunderstand'
         else:
             intent_name = router_response['intent']['name']

@@ -168,12 +168,13 @@ class DialogManager(object):
 
         if router_response['intent']['confidence'] < 0.8:
             dmresponse = self._get_dmresponse_by_key('dontunderstand')
-            self._update_session(dmresponse)
             return dmresponse
 
         intent_name = router_response['intent']['name']
         entities = router_response['entities']
         handler_method = getattr(self, '_handle_' + intent_name)
         dmresponse = handler_method(message, entities)
-        self._update_session(dmresponse)
+        if dmresponse.key != 'dontunderstand':
+            # сохраняем только последний осмысленный ответ в сессии не затыкались после нескольких повтори
+            self._update_session(dmresponse)
         return dmresponse

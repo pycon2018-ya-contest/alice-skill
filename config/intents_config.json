@@ -449,7 +449,12 @@
         "entities": []
       },
       {
-        "text": "Ты попала",
+        "text": "ты попала",
+        "intent": "hit",
+        "entities": []
+      },
+      {
+        "text": "как ты попала",
         "intent": "hit",
         "entities": []
       },
@@ -459,7 +464,7 @@
         "entities": []
       },
       {
-        "text": "Ты ранила",
+        "text": "ты ранила",
         "intent": "hit",
         "entities": []
       },
@@ -485,6 +490,11 @@
       },
       {
         "text": "корабль утонул",
+        "intent": "kill",
+        "entities": []
+      },
+      {
+        "text": "корабли тону",
         "intent": "kill",
         "entities": []
       },

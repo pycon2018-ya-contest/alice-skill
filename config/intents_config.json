@@ -108,12 +108,12 @@
         "entities": []
       },
       {
-        "text": "я хожу д8",
+        "text": "я ухожу д8",
         "intent": "miss",
         "entities": [
           {
-            "start": 7,
-            "end": 9,
+            "start": 8,
+            "end": 10,
             "value": "д8",
             "entity": "hit_entity"
           }
@@ -252,12 +252,12 @@
         ]
       },
       {
-        "text": "я хожу 10 5",
+        "text": "я ухожу 10 5",
         "intent": "miss",
         "entities": [
           {
-            "start": 7,
-            "end": 11,
+            "start": 8,
+            "end": 12,
             "value": "10 5",
             "entity": "hit_entity"
           }
@@ -288,12 +288,12 @@
         ]
       },
       {
-        "text": "я хожу семь четыре",
+        "text": "я ухожу семь четыре",
         "intent": "miss",
         "entities": [
           {
-            "start": 7,
-            "end": 18,
+            "start": 8,
+            "end": 19,
             "value": "семь четыре",
             "entity": "hit_entity"
           }
@@ -505,6 +505,11 @@
       },
       {
         "text": "не поняла",
+        "intent": "dontunderstand",
+        "entities": []
+      },
+      {
+        "text": "повтори последнюю",
         "intent": "dontunderstand",
         "entities": []
       },

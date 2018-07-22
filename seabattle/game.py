@@ -9,8 +9,8 @@ from transliterate import translit
 
 EMPTY = 0
 SHIP = 1
-HIT = 2
-BLOCKED = 3
+BLOCKED = 2
+HIT = 3
 MISS = 4
 
 
@@ -73,12 +73,12 @@ class BaseGame(object):
         raise NotImplementedError()
 
     def print_field(self):
-        mapping = [' ', '0', 'x']
+        mapping = ['0', '1', 'x']
 
-        print '---'
+        print '-' * (self.size + 2)
         for y in range(self.size):
-            print '|%s|' % ''.join(mapping[x] for x in self.field[y * self.size: y * self.size + self.size])
-        print '---'
+            print '|%s|' % ''.join(mapping[x] for x in self.field[y * self.size: (y + 1) * self.size])
+        print '-' * (self.size + 2)
 
     def handle_enemy_shot(self, position):
         index = self.calc_index(position)
@@ -240,7 +240,7 @@ class Game(BaseGame):
         for length in self.ships:
             self.place_ship(length)
 
-        for i in range(0, len(self.field)):
+        for i in range(len(self.field)):
             if self.field[i] == BLOCKED:
                 self.field[i] = EMPTY
 
@@ -251,16 +251,17 @@ class Game(BaseGame):
             direction = random.choice([1, self.size])
 
             index = self.calc_index((x, y))
-            values = self.field[index:None if direction != 1 else index + self.size - index % self.size:direction][:length]
+            values = self.field[index:None if direction == self.size else index + self.size - index % self.size:direction][:length]
 
             if len(values) < length or any(values):
                 return False
 
-            for i in range(0, length):
+            for i in range(length):
                 current_index = index + direction * i
 
                 for j in [0, 1, -1]:
-                    if (current_index % self.size in (0, self.size - 1)
+                    if (j != 0
+                            and current_index % self.size in (0, self.size - 1)
                             and (current_index + j) % self.size in (0, self.size - 1)):
                         continue
 

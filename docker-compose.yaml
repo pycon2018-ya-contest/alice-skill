@@ -1,15 +1,5 @@
 version: '2.1'
 
-
-networks:
-  default:
-    driver: bridge
-    enable_ipv6: true
-    ipam:
-       driver: default
-       config:
-         - subnet: "${DC_BRIDGE_SUBNET}"
-
 services:
   deps:
     build:

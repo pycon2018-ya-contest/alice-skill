@@ -83,7 +83,7 @@ class BaseGame(object):
         if field is None:
             field = self.field
 
-        mapping = [EMPTY, SHIP, BLOCKED, HIT, MISS]
+        mapping = ['.', '1', '.', 'X', 'x']
 
         lines = ['']
         lines.append('-' * (self.size + 2))

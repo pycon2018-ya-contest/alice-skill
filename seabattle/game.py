@@ -4,6 +4,7 @@ from __future__ import unicode_literals
 
 import random
 import re
+import logging
 
 from transliterate import translit
 
@@ -12,6 +13,8 @@ SHIP = 1
 BLOCKED = 2
 HIT = 3
 MISS = 4
+
+log = logging.getLogger(__name__)
 
 
 class BaseGame(object):
@@ -72,13 +75,25 @@ class BaseGame(object):
     def generate_field(self):
         raise NotImplementedError()
 
-    def print_field(self):
-        mapping = ['0', '1', 'x']
+    def print_field(self, field=None):
+        if not self.size:
+            log.info('Empty field')
+            return
 
-        print '-' * (self.size + 2)
+        if field is None:
+            field = self.field
+
+        mapping = [EMPTY, SHIP, BLOCKED, HIT, MISS]
+
+        lines = ['']
+        lines.append('-' * (self.size + 2))
         for y in range(self.size):
-            print '|%s|' % ''.join(mapping[x] for x in self.field[y * self.size: (y + 1) * self.size])
-        print '-' * (self.size + 2)
+            lines.append('|%s|' % ''.join(str(mapping[x]) for x in field[y * self.size: (y + 1) * self.size]))
+        lines.append('-' * (self.size + 2))
+        log.info('\n'.join(lines))
+
+    def print_enemy_field(self):
+        self.print_field(self.enemy_field)
 
     def handle_enemy_shot(self, position):
         index = self.calc_index(position)

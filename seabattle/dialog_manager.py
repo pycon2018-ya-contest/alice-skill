@@ -33,6 +33,10 @@ DMResponse = collections.namedtuple('DMResponse', ['key', 'text', 'tts', 'end_se
 
 
 def _get_entity(entities, entity_type):
+    for e in entities:
+        if e['entity'] == entity_type:
+            return e['value']
+    return None
 
     try:
         return next(e['value'] for e in entities if e['entity'] == entity_type)
@@ -107,10 +111,11 @@ class DialogManager(object):
         if self.game is None:
             return self._get_dmresponse_by_key('need_init')
 
-        self.game.handle_enemy_reply('miss')
-        if not entities:
-            return self._get_dmresponse_by_key('dontunderstand')
         enemy_shot = _get_entity(entities, 'hit_entity')
+        if not enemy_shot:
+            return self._get_dmresponse_by_key('dontunderstand')
+
+        self.game.handle_enemy_reply('miss')
         try:
             enemy_position = self.game.convert_to_position(enemy_shot)
             answer = self.game.handle_enemy_shot(enemy_position)
@@ -146,7 +151,6 @@ class DialogManager(object):
     def _handle_dontunderstand(self, message, entities):
         if self.game is None:
             return self._get_dmresponse_by_key('need_init')
-        self.game.reset_last_shot()
 
         if self.last.key in ['miss', 'shot']:
             shot = self.game.repeat()

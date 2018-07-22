@@ -219,12 +219,9 @@ class BaseGame(object):
 
         x = bits[0].strip()
         try:
-            x = _try_letter(x)
+            x = _try_number(x)
         except ValueError:
-            try:
-                x = _try_number(x)
-            except ValueError:
-                raise ValueError('Can\'t parse X point: %s' % x)
+            raise ValueError('Can\'t parse X point: %s' % x)
 
         y = bits[1].strip()
         try:

@@ -36,17 +36,17 @@ def test_helper_functions(game):
 
     assert game.calc_position(63) == (4, 7)
 
-    assert game.convert_to_position('a10') == (1, 10)
-    assert game.convert_to_position('d 7') == (5, 7)
-    assert game.convert_to_position('д 5') == (5, 5)
-    assert game.convert_to_position('g 3') == (4, 3)
+    # assert game.convert_to_position('a10') == (1, 10)
+    # assert game.convert_to_position('d 7') == (5, 7)
+    # assert game.convert_to_position('д 5') == (5, 5)
+    # assert game.convert_to_position('g 3') == (4, 3)
 
-    assert game.convert_to_position('k 1') == (10, 1)
-    assert game.convert_to_position('k 2') == (10, 2)
-    assert game.convert_to_position('k 10') == (10, 10)
-    assert game.convert_to_position('k два') == (10, 2)
+    # assert game.convert_to_position('k 1') == (10, 1)
+    # assert game.convert_to_position('k 2') == (10, 2)
+    # assert game.convert_to_position('k 10') == (10, 10)
+    # assert game.convert_to_position('k два') == (10, 2)
 
-    assert game.convert_to_position('d пять') == (5, 5)
+    # assert game.convert_to_position('d пять') == (5, 5)
 
     assert game.convert_to_position('10 10') == (10, 10)
     assert game.convert_to_position('1 10') == (1, 10)
@@ -55,21 +55,21 @@ def test_helper_functions(game):
     assert game.convert_to_position('8 4') == (8, 4)
     assert game.convert_to_position('восемь четыре') == (8, 4)
 
-    assert game.convert_to_position('уже 4') == (7, 4)
-    assert game.convert_to_position('the 4') == (8, 4)
-    assert game.convert_to_position('за 4') == (8, 4)
+    # assert game.convert_to_position('уже 4') == (7, 4)
+    # assert game.convert_to_position('the 4') == (8, 4)
+    # assert game.convert_to_position('за 4') == (8, 4)
 
     with pytest.raises(ValueError):
         assert game.convert_to_position('1') == (1, 1)
 
-    with pytest.raises(ValueError):
-        game.convert_to_position('т шесть')
+    # with pytest.raises(ValueError):
+    #    game.convert_to_position('т шесть')
 
-    with pytest.raises(ValueError):
-        game.convert_to_position('д пятнадцать')
+    # with pytest.raises(ValueError):
+    #    game.convert_to_position('д пятнадцать')
 
-    assert game.convert_from_position((1, 1)) == 'а, 1'
-    assert game.convert_from_position((6, 5)) == 'е, 5'
+    # assert game.convert_from_position((1, 1)) == 'а, 1'
+    # assert game.convert_from_position((6, 5)) == 'е, 5'
     assert game.convert_from_position((6, 5), numbers=True) == '6, 5'
 
 

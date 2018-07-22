@@ -181,7 +181,7 @@ class DialogManager(object):
             # сохраняем только последний осмысленный ответ в сессии не затыкались после нескольких повтори
             self._update_session(dmresponse)
 
-        if 'game' in self.session:
+        if self.session.get('game') is not None:
             log.info('My field:')
             self.session['game'].print_field()
             log.info('Enemy field:')

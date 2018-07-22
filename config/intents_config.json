@@ -514,11 +514,6 @@
         "entities": []
       },
       {
-        "text": "убила",
-        "intent": "kill",
-        "entities": []
-      },
-      {
         "text": "не поняла",
         "intent": "dontunderstand",
         "entities": []

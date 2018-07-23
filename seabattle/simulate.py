@@ -13,8 +13,8 @@ player_2 = importlib.import_module(sys.argv[2])
 game_1 = player_1.Game()
 game_2 = player_2.Game()
 
-game_1.start_new_game()
-game_2.start_new_game()
+game_1.start_new_game(numbers=True)
+game_2.start_new_game(numbers=True)
 
 print 'Player 1 field:'
 game_1.print_field()
